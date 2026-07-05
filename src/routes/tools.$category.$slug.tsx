@@ -101,7 +101,7 @@ function ToolPage() {
 
       <section className="faq" aria-labelledby="faq-heading" style={{ marginTop: 40 }}>
         <h2 id="faq-heading">Frequently asked questions</h2>
-        {tool.faqs.map((f, i) => (
+        {tool.faqs.map((f: { q: string; a: string }, i: number) => (
           <details key={i}>
             <summary>{f.q}</summary>
             <p>{f.a}</p>
