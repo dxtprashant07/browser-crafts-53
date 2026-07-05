@@ -91,7 +91,7 @@ function ToolPage() {
       <section aria-labelledby="how-heading" style={{ marginTop: 40 }}>
         <h2 id="how-heading">How to use</h2>
         <ol style={{ paddingLeft: 20, color: "var(--muted)" }}>
-          {tool.howTo.map((s, i) => (
+          {tool.howTo.map((s: string, i: number) => (
             <li key={i} style={{ marginBottom: 8 }}>{s}</li>
           ))}
         </ol>
