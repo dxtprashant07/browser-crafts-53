@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Image, FileText, Type, Code2, LayoutGrid, type LucideIcon } from "lucide-react";
-import { CATEGORIES, type Category } from "@/data/registry";
+import { type Category } from "@/data/registry";
+
 
 
 export function Breadcrumbs({ items }: { items: { label: string; to?: string; params?: Record<string, string> }[] }) {
