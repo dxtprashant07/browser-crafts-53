@@ -13,8 +13,8 @@ export function ToolCard({ tool, onRelated }: { tool: Tool; onRelated?: boolean 
     >
       <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "space-between" }}>
         <CategoryChip category={tool.category} />
-        {tool.popular && <span className="tag">Popular</span>}
       </div>
+
       <span className="name">{tool.name}</span>
       <span className="desc">{tool.shortDesc}</span>
     </Link>
