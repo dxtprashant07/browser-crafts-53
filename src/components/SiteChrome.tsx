@@ -1,10 +1,31 @@
 import { lazy, Suspense, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useTheme } from "@/lib/theme";
 import { useCommandPalette } from "@/components/CommandPalette";
 import { CATEGORIES } from "@/data/registry";
 
 const CommandPalette = lazy(() => import("@/components/CommandPalette"));
+
+const NAV: { label: string; href: string }[] = [
+  { label: "Home", href: "/" },
+  { label: "Tools", href: "/#popular" },
+  { label: "Categories", href: "/#categories" },
+  { label: "How It Works", href: "/#why" },
+  { label: "About", href: "/privacy" },
+  { label: "Roadmap", href: "/#categories" },
+];
+
+function BrandMark() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden focusable="false">
+      <path
+        d="M3 19L9.2 8.5a1 1 0 0 1 1.72 0L14 14l1.6-2.6a1 1 0 0 1 1.7 0L21 19H3Z"
+        fill="currentColor"
+      />
+      <circle cx="17.5" cy="6" r="2" fill="currentColor" />
+    </svg>
+  );
+}
 
 function ThemeToggle() {
   const { theme, toggle } = useTheme();
@@ -22,38 +43,44 @@ function ThemeToggle() {
 
 export function SiteChrome({ children }: { children: ReactNode }) {
   const { open, setOpen } = useCommandPalette();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
     <>
       <header className="site-header">
         <div className="container bar">
-          <Link to="/" className="logo" aria-label="Tools Platform home">
-            <span className="dot" aria-hidden />
-            Tools Platform
+          <Link to="/" className="brand" aria-label="Tools Platform home">
+            <span className="brand-mark">
+              <BrandMark />
+            </span>
+            <span className="brand-text">
+              <span className="brand-title">Tools Platform</span>
+              <span className="brand-sub">One Platform. Many Tools.</span>
+            </span>
           </Link>
-          <nav className="header-nav" aria-label="Categories">
-            {CATEGORIES.map((c) => (
-              <Link
-                key={c.id}
-                to="/tools/$category"
-                params={{ category: c.id }}
-                activeProps={{ "data-active": "true" }}
+
+          <nav className="header-nav" aria-label="Primary">
+            {NAV.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                data-active={item.href === "/" && pathname === "/" ? "true" : undefined}
               >
-                {c.name}
-              </Link>
+                {item.label}
+              </a>
             ))}
           </nav>
+
           <div className="header-right">
-            <button
-              className="search-trigger"
-              onClick={() => setOpen(true)}
-              aria-label="Search tools"
-            >
+            <button className="header-search" onClick={() => setOpen(true)} aria-label="Search tools">
               <span aria-hidden>🔍</span>
-              <span>Search</span>
-              <kbd>⌘K</kbd>
+              <span className="lbl">Search tools…</span>
+              <kbd className="k">⌘K</kbd>
             </button>
             <ThemeToggle />
+            <button className="btn btn-primary btn-sm get-started-btn" onClick={() => setOpen(true)}>
+              Get Started
+            </button>
           </div>
         </div>
       </header>
