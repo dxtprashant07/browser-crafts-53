@@ -9,6 +9,22 @@ import { ClientOnly } from "@tanstack/react-router";
 
 const ImageCompressor = lazy(() => import("@/islands/ImageCompressor"));
 
+const HERO_CHIPS: { label: string; slug: string; category: string }[] = [
+  { label: "compress image", slug: "compress-image", category: "image" },
+  { label: "merge pdf", slug: "merge-pdf", category: "pdf" },
+  { label: "qr code", slug: "qr-code-generator", category: "generator" },
+  { label: "json", slug: "json-formatter", category: "developer" },
+  { label: "password", slug: "password-generator", category: "generator" },
+];
+
+const CAT_DISPLAY: Record<string, string> = {
+  image: "Image tools",
+  pdf: "PDF tools",
+  text: "Text tools",
+  developer: "Developer tools",
+  generator: "Generators",
+};
+
 export const Route = createFileRoute("/")({
   head: () => ({
     links: [{ rel: "canonical", href: "/" }],
@@ -36,34 +52,54 @@ function Index() {
   return (
     <SiteChrome>
       <section className="container hero">
-        <h1>Small jobs. Done in your browser.</h1>
+        <h1>
+          Small jobs.
+          <br />
+          Done in your browser.
+        </h1>
         <p className="sub">
-          Free, fast tools for images, PDFs, text, and code. Nothing is uploaded — everything runs on your device.
+          Free tools that work instantly and never see your files — no account, no upload, no
+          paywall.
         </p>
         <button className="big-search" onClick={() => setOpen(true)} aria-label="Search tools">
           <span aria-hidden>🔍</span>
-          <span>Search tools…</span>
-          <span className="kbd">⌘K</span>
+          <span>What do you need to do?</span>
+          <span className="kbd">Ctrl K</span>
         </button>
         <div className="example-chips">
-          {popular.slice(0, 5).map((t) => (
-            <button key={t.slug} onClick={() => navigate({ to: "/tools/$category/$slug", params: { category: t.category, slug: t.slug } })}>
-              {t.name}
+          {HERO_CHIPS.map((c) => (
+            <button
+              key={c.slug}
+              onClick={() =>
+                navigate({
+                  to: "/tools/$category/$slug",
+                  params: { category: c.category, slug: c.slug },
+                })
+              }
+            >
+              {c.label}
             </button>
           ))}
         </div>
         <p className="trust-line">0 uploads · 0 accounts · 0 paywalls · &lt;2s loads</p>
       </section>
 
-      <section className="container section" aria-labelledby="popular-heading">
-        <h2 id="popular-heading">Popular tools</h2>
+      <section className="container section" id="popular" aria-labelledby="popular-heading">
+        <div className="section-head">
+          <h2 id="popular-heading">Popular tools</h2>
+          <Link to="/tools/$category" params={{ category: "image" }}>
+            All 12 tools →
+          </Link>
+        </div>
         <div className="bento">
           <div className="feature card" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <CategoryChip category="image" />
               <div>
                 <strong style={{ fontSize: "1.1rem" }}>Image Compressor</strong>
-                <div style={{ color: "var(--muted)", fontSize: "0.88rem" }}>Drop an image to shrink it instantly</div>
+                <div style={{ color: "var(--muted)", fontSize: "0.88rem" }}>
+                  Shrink JPG, PNG, and WEBP up to 85% — right here, before you even leave this card.
+                </div>
               </div>
             </div>
             <ClientOnly fallback={<div className="dropzone">Loading…</div>}>
@@ -72,33 +108,70 @@ function Index() {
               </Suspense>
             </ClientOnly>
           </div>
-          {popular.filter((t) => t.slug !== "compress-image").map((t) => (
-            <ToolCard key={t.slug} tool={t} />
-          ))}
+          {popular
+            .filter((t) => t.slug !== "compress-image")
+            .map((t) => (
+              <ToolCard key={t.slug} tool={t} />
+            ))}
         </div>
       </section>
 
-      <section className="container section" aria-labelledby="cat-heading">
-        <h2 id="cat-heading">Browse by category</h2>
-        <div className="cat-list">
-          {CATEGORIES.map((c) => (
-            <Link key={c.id} to="/tools/$category" params={{ category: c.id }}>
-              <CategoryChip category={c.id} />
-              <span>{c.name}</span>
-              <span className="count">{categoryCount(c.id)}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <section className="container section" id="categories">
+        <div className="home-lower">
+          <div>
+            <h2 style={{ marginBottom: 18 }}>Browse by category</h2>
+            <div className="cat-two">
+              {CATEGORIES.map((c) => (
+                <Link key={c.id} to="/tools/$category" params={{ category: c.id }} className="cat-item">
+                  <CategoryChip category={c.id} />
+                  <span>{CAT_DISPLAY[c.id] ?? c.name}</span>
+                  <span className="count">{categoryCount(c.id)}</span>
+                </Link>
+              ))}
+              <div className="cat-item soon" aria-disabled="true">
+                <span className="chip" style={{ background: "var(--bg)", color: "var(--muted)" }}>
+                  ⇄
+                </span>
+                <span>Converters</span>
+                <span className="count">soon</span>
+              </div>
+            </div>
+          </div>
 
-      <section className="container section">
-        <div className="why-panel">
-          <h2>Why this site is different</h2>
-          <ul>
-            <li><strong>Truly private</strong><span>Files and text never leave your device. No server, ever.</span></li>
-            <li><strong>No accounts</strong><span>No sign-up, no email, no tracking walls. Just open and use.</span></li>
-            <li><strong>Fast &amp; free</strong><span>Lightweight pages that load in under two seconds, always free.</span></li>
-          </ul>
+          <div className="why-panel" id="why">
+            <h2 style={{ fontSize: "1.3rem" }}>Why this site is different</h2>
+            <ul>
+              <li>
+                <strong>
+                  <span className="check" aria-hidden>
+                    ✓
+                  </span>
+                  Private by architecture.
+                </strong>
+                <span>
+                  Every tool runs client-side — your files physically cannot reach a server.
+                </span>
+              </li>
+              <li>
+                <strong>
+                  <span className="check" aria-hidden>
+                    ✓
+                  </span>
+                  Ads never get in the way.
+                </strong>
+                <span>One slot, only after your result. Never before, never blocking.</span>
+              </li>
+              <li>
+                <strong>
+                  <span className="check" aria-hidden>
+                    ✓
+                  </span>
+                  Dark mode native.
+                </strong>
+                <span>A first-class theme, not an inverted afterthought.</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
     </SiteChrome>
