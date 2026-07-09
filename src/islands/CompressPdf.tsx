@@ -14,7 +14,7 @@ export default function CompressPdf() {
   const [level, setLevel] = useState<Level>("balanced");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [result, setResult] = useState<{ blob: Blob; original: number } | null>(null);
+  const [result, setResult] = useState<{ blob: Blob; original: number; imagesRecompressed: number } | null>(null);
 
   const onFiles = (files: File[]) => {
     const f = files[0];
@@ -27,14 +27,24 @@ export default function CompressPdf() {
     setResult(null);
   };
 
+  const reset = () => {
+    setFile(null);
+    setResult(null);
+    setError("");
+  };
+
   const compress = async () => {
     if (!file) return;
     setBusy(true);
     setError("");
     try {
       const buf = await file.arrayBuffer();
-      const res = await runPdfJob({ op: "compress", files: [buf] });
-      setResult({ blob: new Blob([res.parts![0].bytes], { type: "application/pdf" }), original: file.size });
+      const res = await runPdfJob({ op: "compress", files: [buf], level });
+      setResult({
+        blob: new Blob([res.parts![0].bytes], { type: "application/pdf" }),
+        original: file.size,
+        imagesRecompressed: res.imagesRecompressed ?? 0,
+      });
       track("tool_used", { slug: "compress-pdf", level });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Couldn't compress that PDF.");
@@ -51,13 +61,24 @@ export default function CompressPdf() {
             <div className="stat-row"><span style={{ color: "var(--muted)" }}>Original</span><span className="val">{formatBytes(result.original)}</span></div>
             <div className="stat-row"><span style={{ color: "var(--muted)" }}>Compressed</span><span className="val">{formatBytes(result.blob.size)}</span></div>
             <div className="stat-row"><span style={{ color: "var(--muted)" }}>Saved</span><span className="val" style={{ color: "var(--success)" }}>{percentSaved(result.original, result.blob.size)}%</span></div>
+            {result.imagesRecompressed === 0 && (
+              <p style={{ marginTop: 10, fontSize: "0.85rem", color: "var(--muted)" }}>
+                No compressible images found in this PDF — its size mostly comes from text, fonts, or vector content, which we don't touch to avoid altering how the document looks.
+              </p>
+            )}
             <button className="btn btn-primary" style={{ marginTop: 14, width: "100%" }} onClick={() => { downloadBlob(result.blob, `${baseName(file!.name)}-compressed.pdf`); track("result_downloaded", { slug: "compress-pdf" }); }}>Download compressed PDF</button>
+            <button className="btn btn-sm" style={{ marginTop: 8, width: "100%" }} onClick={reset}>Compress another PDF</button>
           </div>
         ) : null
       }
     >
       {!file && <DropZone accept="application/pdf" onFiles={onFiles} hint="Drop a PDF to compress" />}
-      {file && <p style={{ fontWeight: 600 }}>{file.name} <span className="mono" style={{ color: "var(--muted)", fontWeight: 400 }}>({formatBytes(file.size)})</span></p>}
+      {file && (
+        <>
+          <p style={{ fontWeight: 600 }}>{file.name} <span className="mono" style={{ color: "var(--muted)", fontWeight: 400 }}>({formatBytes(file.size)})</span></p>
+          <button className="btn btn-sm" style={{ marginTop: 6 }} onClick={reset}>Choose another</button>
+        </>
+      )}
 
       <div style={{ marginTop: 16 }}>
         <label className="field">Compression level</label>

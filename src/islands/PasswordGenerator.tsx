@@ -21,13 +21,17 @@ function generate(length: number, active: SetKey[]): string {
   return out;
 }
 
-function strength(pw: string, active: number): { label: string; pct: number; color: string } {
-  const bits = pw.length * Math.log2(active > 0 ? SETS.upper.length : 1) * 0.6;
-  const score = Math.min(100, Math.round(pw.length * 4 + active * 8));
-  if (score < 40) return { label: "Weak", pct: score, color: "var(--error)" };
-  if (score < 70) return { label: "Fair", pct: score, color: "var(--accent)" };
-  void bits;
-  return { label: "Strong", pct: score, color: "var(--success)" };
+// Real Shannon entropy for a uniformly-random password: length * log2(pool size).
+// 80 bits is the rough point past which offline brute-force is impractical,
+// so we treat it as the top of the meter.
+function strength(pw: string, active: SetKey[]): { label: string; pct: number; color: string; bits: number } {
+  const pool = active.reduce((n, k) => n + SETS[k].length, 0);
+  const bits = pw.length && pool ? Math.round(pw.length * Math.log2(pool)) : 0;
+  const pct = Math.min(100, Math.round((bits / 80) * 100));
+  if (bits < 40) return { label: "Weak", pct, color: "var(--error)", bits };
+  if (bits < 60) return { label: "Fair", pct, color: "var(--accent)", bits };
+  if (bits < 80) return { label: "Strong", pct, color: "var(--success)", bits };
+  return { label: "Very strong", pct, color: "var(--success)", bits };
 }
 
 export default function PasswordGenerator() {
@@ -53,7 +57,7 @@ export default function PasswordGenerator() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [length, sets]);
 
-  const s = strength(password, active.length);
+  const s = strength(password, active.length ? active : ["lower"]);
 
   return (
     <ToolShell>
@@ -69,7 +73,7 @@ export default function PasswordGenerator() {
 
       <div style={{ marginBottom: 6, display: "flex", justifyContent: "space-between" }}>
         <span style={{ fontSize: "0.85rem", color: "var(--muted)" }}>Strength</span>
-        <span className="mono" style={{ color: s.color, fontWeight: 600 }}>{s.label}</span>
+        <span className="mono" style={{ color: s.color, fontWeight: 600 }}>{s.label} · {s.bits} bits</span>
       </div>
       <div className="progress" role="meter" aria-valuenow={s.pct} aria-valuemin={0} aria-valuemax={100} aria-label="Password strength">
         <span style={{ width: `${s.pct}%`, background: s.color }} />
