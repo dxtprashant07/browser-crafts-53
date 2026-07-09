@@ -31,7 +31,7 @@ export default function ImageCompressor() {
     try {
       const bitmap = await loadBitmap(f);
       const type = f.type === "image/png" ? "image/webp" : f.type || "image/jpeg";
-      const res = await runImageJob({ op: "compress", bitmap, type, quality: q / 100 }, [bitmap]);
+      const res = await runImageJob({ op: "compress", bitmap, type, quality: q }, [bitmap]);
       setDone({ blob: res.blob!, originalSize: f.size, name: f.name });
       track("tool_used", { slug: "compress-image", quality: q });
     } catch (e) {

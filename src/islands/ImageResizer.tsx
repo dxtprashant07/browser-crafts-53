@@ -46,7 +46,7 @@ export default function ImageResizer() {
     try {
       const bmp = await loadBitmap(file);
       const type = file.type || "image/png";
-      const res = await runImageJob({ op: "resize", bitmap: bmp, type, width, height, quality: 0.92 }, [bmp]);
+      const res = await runImageJob({ op: "resize", bitmap: bmp, type, width, height, quality: 92 }, [bmp]);
       setResult(res.blob!);
       track("tool_used", { slug: "resize-image", width, height });
     } catch (e) {

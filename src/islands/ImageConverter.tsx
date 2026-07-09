@@ -31,7 +31,7 @@ export default function ImageConverter() {
     setBusy(true);
     try {
       const bmp = await loadBitmap(file);
-      const res = await runImageJob({ op: "convert", bitmap: bmp, type: fmt, quality: 0.92 }, [bmp]);
+      const res = await runImageJob({ op: "convert", bitmap: bmp, type: fmt, quality: 92 }, [bmp]);
       setResult(res.blob!);
       track("tool_used", { slug: "convert-image-format", to: fmt });
     } catch (e) {
