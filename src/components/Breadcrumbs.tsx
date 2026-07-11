@@ -2,20 +2,23 @@ import { Link } from "@tanstack/react-router";
 import { Image, FileText, Type, Code2, LayoutGrid, type LucideIcon } from "lucide-react";
 import { type Category } from "@/data/registry";
 
-
-
-export function Breadcrumbs({ items }: { items: { label: string; to?: string; params?: Record<string, string> }[] }) {
+export function Breadcrumbs({
+  items,
+}: {
+  items: { label: string; to?: string; params?: Record<string, string> }[];
+}) {
   return (
     <nav className="breadcrumbs" aria-label="Breadcrumb">
       {items.map((it, i) => (
         <span key={i} style={{ display: "inline-flex", gap: 6, alignItems: "center" }}>
-          {i > 0 && <span className="sep" aria-hidden>›</span>}
+          {i > 0 && (
+            <span className="sep" aria-hidden>
+              ›
+            </span>
+          )}
           {it.to ? (
             it.params ? (
-              <Link
-                to="/tools/$category"
-                params={{ category: it.params.category }}
-              >
+              <Link to="/tools/$category" params={{ category: it.params.category }}>
                 {it.label}
               </Link>
             ) : (
@@ -57,4 +60,3 @@ export function CategoryChip({ category }: { category: Category }) {
     </span>
   );
 }
-

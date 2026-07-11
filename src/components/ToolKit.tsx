@@ -114,13 +114,7 @@ export function PrivacyNote() {
   );
 }
 
-export function ToolShell({
-  children,
-  result,
-}: {
-  children: ReactNode;
-  result?: ReactNode;
-}) {
+export function ToolShell({ children, result }: { children: ReactNode; result?: ReactNode }) {
   return (
     <>
       <div className="card">{children}</div>

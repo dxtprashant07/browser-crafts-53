@@ -11,7 +11,9 @@ export function ToolCard({ tool, onRelated }: { tool: Tool; onRelated?: boolean 
       className="tool-card"
       onClick={() => onRelated && track("related_clicked", { slug: tool.slug })}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "space-between" }}>
+      <div
+        style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "space-between" }}
+      >
         <CategoryChip category={tool.category} />
       </div>
 

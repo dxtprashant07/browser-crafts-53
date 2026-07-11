@@ -2,7 +2,7 @@ import { useState } from "react";
 import JSZip from "jszip";
 import { DropZone, ErrorNotice, PrivacyNote, Segmented, ToolShell } from "@/components/ToolKit";
 import { runPdfJob } from "@/lib/workers";
-import { baseName, downloadBlob } from "@/lib/format";
+import { baseName, downloadBlob, formatBytes } from "@/lib/format";
 import { track } from "@/lib/analytics";
 
 function isPdf(f: File) {
@@ -48,7 +48,10 @@ export default function SplitPdf() {
         const blob = await zip.generateAsync({ type: "blob" });
         setReady({ blob, name: `${baseName(file.name)}-pages.zip` });
       } else {
-        setReady({ blob: new Blob([parts[0].bytes], { type: "application/pdf" }), name: `${baseName(file.name)}-${parts[0].name}` });
+        setReady({
+          blob: new Blob([parts[0].bytes], { type: "application/pdf" }),
+          name: `${baseName(file.name)}-${parts[0].name}`,
+        });
       }
       track("tool_used", { slug: "split-pdf", mode });
     } catch (e) {
@@ -63,14 +66,54 @@ export default function SplitPdf() {
       result={
         ready ? (
           <div className="card">
-            <p style={{ marginBottom: 12 }}>Your pages are ready.</p>
-            <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => { downloadBlob(ready.blob, ready.name); track("result_downloaded", { slug: "split-pdf" }); }}>Download {ready.name.endsWith(".zip") ? "ZIP" : "PDF"}</button>
+            <p style={{ marginBottom: 12 }}>
+              Your pages are ready — <span className="mono">{formatBytes(ready.blob.size)}</span>
+            </p>
+            <button
+              className="btn btn-primary"
+              style={{ width: "100%" }}
+              onClick={() => {
+                downloadBlob(ready.blob, ready.name);
+                track("result_downloaded", { slug: "split-pdf" });
+              }}
+            >
+              Download {ready.name.endsWith(".zip") ? "ZIP" : "PDF"}
+            </button>
+            <button
+              className="btn btn-sm"
+              style={{ marginTop: 8, width: "100%" }}
+              onClick={() => {
+                setFile(null);
+                setReady(null);
+                setError("");
+                setRange("");
+              }}
+            >
+              Split another PDF
+            </button>
           </div>
         ) : null
       }
     >
       {!file && <DropZone accept="application/pdf" onFiles={onFiles} hint="Drop a PDF to split" />}
-      {file && <p style={{ fontWeight: 600 }}>{file.name} <button className="btn btn-sm" style={{ marginLeft: 8 }} onClick={() => { setFile(null); setReady(null); }}>Change</button></p>}
+      {file && (
+        <p style={{ fontWeight: 600 }}>
+          {file.name}{" "}
+          <span className="mono" style={{ color: "var(--muted)", fontWeight: 400 }}>
+            ({formatBytes(file.size)})
+          </span>{" "}
+          <button
+            className="btn btn-sm"
+            style={{ marginLeft: 8 }}
+            onClick={() => {
+              setFile(null);
+              setReady(null);
+            }}
+          >
+            Change
+          </button>
+        </p>
+      )}
 
       <div style={{ marginTop: 16 }}>
         <label className="field">Split mode</label>
@@ -88,20 +131,42 @@ export default function SplitPdf() {
 
       {mode === "range" && (
         <div style={{ marginTop: 14 }}>
-          <label className="field" htmlFor="sp-range">Pages</label>
-          <input id="sp-range" className="input mono-input" placeholder="1-8, 14" value={range} onChange={(e) => setRange(e.target.value)} />
+          <label className="field" htmlFor="sp-range">
+            Pages
+          </label>
+          <input
+            id="sp-range"
+            className="input mono-input"
+            placeholder="1-8, 14"
+            value={range}
+            onChange={(e) => setRange(e.target.value)}
+          />
         </div>
       )}
       {mode === "evenodd" && (
         <div style={{ marginTop: 14 }}>
-          <Segmented ariaLabel="Odd or even" value={evenOdd} onChange={setEvenOdd} options={[{ value: "odd", label: "Odd pages" }, { value: "even", label: "Even pages" }]} />
+          <Segmented
+            ariaLabel="Odd or even"
+            value={evenOdd}
+            onChange={setEvenOdd}
+            options={[
+              { value: "odd", label: "Odd pages" },
+              { value: "even", label: "Even pages" },
+            ]}
+          />
         </div>
       )}
 
       <div style={{ marginTop: 16 }}>
-        <button className="btn btn-primary" onClick={split} disabled={!file || busy}>{busy ? "Splitting…" : "Split PDF"}</button>
+        <button className="btn btn-primary" onClick={split} disabled={!file || busy}>
+          {busy ? "Splitting…" : "Split PDF"}
+        </button>
       </div>
-      {error && <div style={{ marginTop: 12 }}><ErrorNotice>{error}</ErrorNotice></div>}
+      {error && (
+        <div style={{ marginTop: 12 }}>
+          <ErrorNotice>{error}</ErrorNotice>
+        </div>
+      )}
       <PrivacyNote />
     </ToolShell>
   );

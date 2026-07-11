@@ -67,7 +67,11 @@ self.onmessage = async (e: MessageEvent<ImageJob>) => {
     let h = imageData.height;
 
     if (job.op === "resize" && job.width && job.height) {
-      imageData = await resizeImageData(imageData, { width: job.width, height: job.height, method: "lanczos3" });
+      imageData = await resizeImageData(imageData, {
+        width: job.width,
+        height: job.height,
+        method: "lanczos3",
+      });
       w = job.width;
       h = job.height;
     }

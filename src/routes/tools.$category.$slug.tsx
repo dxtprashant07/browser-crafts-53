@@ -16,7 +16,8 @@ export const Route = createFileRoute("/tools/$category/$slug")({
   },
   head: ({ params, loaderData }) => {
     const tool = loaderData?.tool;
-    if (!tool) return { meta: [{ title: "Tool not found" }, { name: "robots", content: "noindex" }] };
+    if (!tool)
+      return { meta: [{ title: "Tool not found" }, { name: "robots", content: "noindex" }] };
     return {
       meta: [
         { title: tool.metaTitle },
@@ -60,7 +61,9 @@ export const Route = createFileRoute("/tools/$category/$slug")({
     <SiteChrome>
       <div className="container section" style={{ textAlign: "center" }}>
         <h1>Tool not found</h1>
-        <Link to="/" className="btn btn-primary">Go home</Link>
+        <Link to="/" className="btn btn-primary">
+          Go home
+        </Link>
       </div>
     </SiteChrome>
   ),
@@ -68,7 +71,8 @@ export const Route = createFileRoute("/tools/$category/$slug")({
 
 function ToolPage() {
   const { tool, cat } = Route.useLoaderData();
-  const wide = tool.slug === "word-counter";
+  const WIDE_TOOLS = ["word-counter", "text-compare", "json-formatter"];
+  const wide = WIDE_TOOLS.includes(tool.slug);
 
   useEffect(() => {
     track("tool_viewed", { slug: tool.slug });
@@ -84,7 +88,9 @@ function ToolPage() {
         ]}
       />
       <h1>{tool.h1}</h1>
-      <p className="prose" style={{ marginBottom: 20 }}>{tool.intro}</p>
+      <p className="prose" style={{ marginBottom: 20 }}>
+        {tool.intro}
+      </p>
 
       <ToolIsland slug={tool.slug} />
 
@@ -92,7 +98,9 @@ function ToolPage() {
         <h2 id="how-heading">How to use</h2>
         <ol style={{ paddingLeft: 20, color: "var(--muted)" }}>
           {tool.howTo.map((s: string, i: number) => (
-            <li key={i} style={{ marginBottom: 8 }}>{s}</li>
+            <li key={i} style={{ marginBottom: 8 }}>
+              {s}
+            </li>
           ))}
         </ol>
       </section>
@@ -112,9 +120,9 @@ function ToolPage() {
       <section aria-labelledby="about-heading" style={{ marginTop: 40 }}>
         <h2 id="about-heading">About this tool</h2>
         <p className="prose">
-          {tool.name} is a free, browser-based tool from Tools Platform. It runs entirely on your device — your data
-          is never uploaded to a server, so it stays completely private. There are no accounts, no watermarks, and no
-          limits. {tool.intro}
+          {tool.name} is a free, browser-based tool from Tools Platform. It runs entirely on your
+          device — your data is never uploaded to a server, so it stays completely private. There
+          are no accounts, no watermarks, and no limits. {tool.intro}
         </p>
       </section>
     </>

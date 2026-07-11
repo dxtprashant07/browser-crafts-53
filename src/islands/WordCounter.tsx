@@ -7,7 +7,10 @@ const STORAGE_KEY = "tp-word-counter-draft";
 function countSyllables(word: string): number {
   word = word.toLowerCase().replace(/[^a-z]/g, "");
   if (word.length <= 3) return word ? 1 : 0;
-  const m = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "").replace(/^y/, "").match(/[aeiouy]{1,2}/g);
+  const m = word
+    .replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "")
+    .replace(/^y/, "")
+    .match(/[aeiouy]{1,2}/g);
   return m ? m.length : 1;
 }
 
@@ -123,7 +126,29 @@ export default function WordCounter() {
   }, [text]);
 
   const density = useMemo(() => {
-    const stop = new Set(["the", "a", "an", "and", "or", "but", "of", "to", "in", "on", "for", "is", "are", "it", "with", "as", "at", "by", "be", "this", "that"]);
+    const stop = new Set([
+      "the",
+      "a",
+      "an",
+      "and",
+      "or",
+      "but",
+      "of",
+      "to",
+      "in",
+      "on",
+      "for",
+      "is",
+      "are",
+      "it",
+      "with",
+      "as",
+      "at",
+      "by",
+      "be",
+      "this",
+      "that",
+    ]);
     const counts = new Map<string, number>();
     for (const w of stats.wordsArr) {
       const key = w.toLowerCase().replace(/[^a-z0-9]/gi, "");
@@ -133,7 +158,11 @@ export default function WordCounter() {
     return [...counts.entries()]
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
-      .map(([word, n]) => ({ word, n, pct: stats.words ? Math.round((n / stats.words) * 1000) / 10 : 0 }));
+      .map(([word, n]) => ({
+        word,
+        n,
+        pct: stats.words ? Math.round((n / stats.words) * 1000) / 10 : 0,
+      }));
   }, [stats.wordsArr, stats.words]);
 
   const goalPct = goal > 0 ? Math.min(100, Math.round((stats.words / goal) * 100)) : 0;
@@ -143,8 +172,16 @@ export default function WordCounter() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stats.words > 0]);
 
-  const cleanText = () => commit(text.replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").replace(/ +\n/g, "\n").trim());
-  const toggleCase = () => commit(text === text.toUpperCase() ? text.toLowerCase() : text.toUpperCase());
+  const cleanText = () =>
+    commit(
+      text
+        .replace(/[ \t]+/g, " ")
+        .replace(/\n{3,}/g, "\n\n")
+        .replace(/ +\n/g, "\n")
+        .trim(),
+    );
+  const toggleCase = () =>
+    commit(text === text.toUpperCase() ? text.toLowerCase() : text.toUpperCase());
   const doReplace = () => {
     if (!findVal) return;
     commit(text.split(findVal).join(replaceVal));
@@ -180,7 +217,11 @@ export default function WordCounter() {
 
         <div className="card">
           <h3>Keyword density</h3>
-          {density.length === 0 && <p style={{ color: "var(--muted)", margin: 0, fontSize: "0.9rem" }}>Start typing to see your top words.</p>}
+          {density.length === 0 && (
+            <p style={{ color: "var(--muted)", margin: 0, fontSize: "0.9rem" }}>
+              Start typing to see your top words.
+            </p>
+          )}
           {density.map((d) => (
             <div className="stat-row" key={d.word}>
               <span style={{ color: "var(--muted)" }}>{d.word}</span>
@@ -193,13 +234,38 @@ export default function WordCounter() {
 
         <div className="card">
           <h3>Goal</h3>
-          <label className="field" htmlFor="wc-goal">Target words</label>
-          <input id="wc-goal" className="input mono-input" type="number" min={0} value={goal} onChange={(e) => setGoal(Number(e.target.value))} />
-          <div style={{ margin: "12px 0 6px", display: "flex", justifyContent: "space-between", fontSize: "0.85rem" }}>
-            <span style={{ color: "var(--muted)" }}>{stats.words} / {goal}</span>
+          <label className="field" htmlFor="wc-goal">
+            Target words
+          </label>
+          <input
+            id="wc-goal"
+            className="input mono-input"
+            type="number"
+            min={0}
+            value={goal}
+            onChange={(e) => setGoal(Number(e.target.value))}
+          />
+          <div
+            style={{
+              margin: "12px 0 6px",
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: "0.85rem",
+            }}
+          >
+            <span style={{ color: "var(--muted)" }}>
+              {stats.words} / {goal}
+            </span>
             <span className="mono">{goalPct}%</span>
           </div>
-          <div className="progress" role="meter" aria-valuenow={goalPct} aria-valuemin={0} aria-valuemax={100} aria-label="Goal progress">
+          <div
+            className="progress"
+            role="meter"
+            aria-valuenow={goalPct}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label="Goal progress"
+          >
             <span style={{ width: `${goalPct}%` }} />
           </div>
         </div>
@@ -207,11 +273,21 @@ export default function WordCounter() {
 
       <div>
         <div className="wc-toolbar">
-          <button className="btn btn-sm" onClick={toggleCase}>Case</button>
-          <button className="btn btn-sm" onClick={cleanText}>Clean text</button>
-          <button className="btn btn-sm" onClick={() => setShowFind((s) => !s)}>Find &amp; replace</button>
-          <button className="btn btn-sm" onClick={undo} disabled={hIndex === 0}>Undo</button>
-          <button className="btn btn-sm" onClick={redo} disabled={hIndex >= history.length - 1}>Redo</button>
+          <button className="btn btn-sm" onClick={toggleCase}>
+            Case
+          </button>
+          <button className="btn btn-sm" onClick={cleanText}>
+            Clean text
+          </button>
+          <button className="btn btn-sm" onClick={() => setShowFind((s) => !s)}>
+            Find &amp; replace
+          </button>
+          <button className="btn btn-sm" onClick={undo} disabled={hIndex === 0}>
+            Undo
+          </button>
+          <button className="btn btn-sm" onClick={redo} disabled={hIndex >= history.length - 1}>
+            Redo
+          </button>
           <label className="btn btn-sm" style={{ cursor: "pointer" }}>
             Upload .txt
             <input
@@ -225,26 +301,66 @@ export default function WordCounter() {
               }}
             />
           </label>
-          <button className="btn btn-sm" onClick={() => { downloadBlob(new Blob([text], { type: "text/plain" }), "text.txt"); track("result_downloaded", { slug: "word-counter" }); }}>Download .txt</button>
-          <button className="btn btn-sm" onClick={() => window.print()}>Print</button>
-          <button className="btn btn-sm" onClick={() => commit("")}>Clear</button>
+          <button
+            className="btn btn-sm"
+            onClick={() => {
+              downloadBlob(new Blob([text], { type: "text/plain" }), "text.txt");
+              track("result_downloaded", { slug: "word-counter" });
+            }}
+          >
+            Download .txt
+          </button>
+          <button className="btn btn-sm" onClick={() => window.print()}>
+            Print
+          </button>
+          <button className="btn btn-sm" onClick={() => commit("")}>
+            Clear
+          </button>
         </div>
 
         {showFind && (
-          <div className="card" style={{ padding: 14, marginBottom: 10, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "flex-end" }}>
+          <div
+            className="card"
+            style={{
+              padding: 14,
+              marginBottom: 10,
+              display: "flex",
+              gap: 8,
+              flexWrap: "wrap",
+              alignItems: "flex-end",
+            }}
+          >
             <div style={{ flex: 1, minWidth: 140 }}>
-              <label className="field" htmlFor="wc-find">Find</label>
-              <input id="wc-find" className="input" value={findVal} onChange={(e) => setFindVal(e.target.value)} />
+              <label className="field" htmlFor="wc-find">
+                Find
+              </label>
+              <input
+                id="wc-find"
+                className="input"
+                value={findVal}
+                onChange={(e) => setFindVal(e.target.value)}
+              />
             </div>
             <div style={{ flex: 1, minWidth: 140 }}>
-              <label className="field" htmlFor="wc-replace">Replace with</label>
-              <input id="wc-replace" className="input" value={replaceVal} onChange={(e) => setReplaceVal(e.target.value)} />
+              <label className="field" htmlFor="wc-replace">
+                Replace with
+              </label>
+              <input
+                id="wc-replace"
+                className="input"
+                value={replaceVal}
+                onChange={(e) => setReplaceVal(e.target.value)}
+              />
             </div>
-            <button className="btn btn-primary btn-sm" onClick={doReplace}>Replace all</button>
+            <button className="btn btn-primary btn-sm" onClick={doReplace}>
+              Replace all
+            </button>
           </div>
         )}
 
-        <label className="visually-hidden" htmlFor="wc-editor">Text editor</label>
+        <label className="visually-hidden" htmlFor="wc-editor">
+          Text editor
+        </label>
         <textarea
           id="wc-editor"
           ref={taRef}

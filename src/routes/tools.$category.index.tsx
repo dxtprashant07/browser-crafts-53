@@ -12,7 +12,8 @@ export const Route = createFileRoute("/tools/$category/")({
   },
   head: ({ params, loaderData }) => {
     const cat = loaderData?.category;
-    if (!cat) return { meta: [{ title: "Category not found" }, { name: "robots", content: "noindex" }] };
+    if (!cat)
+      return { meta: [{ title: "Category not found" }, { name: "robots", content: "noindex" }] };
     return {
       meta: [
         { title: `${cat.name} Tools — Tools Platform` },
@@ -29,7 +30,9 @@ export const Route = createFileRoute("/tools/$category/")({
     <SiteChrome>
       <div className="container section" style={{ textAlign: "center" }}>
         <h1>Category not found</h1>
-        <Link to="/" className="btn btn-primary">Go home</Link>
+        <Link to="/" className="btn btn-primary">
+          Go home
+        </Link>
       </div>
     </SiteChrome>
   ),
@@ -48,7 +51,9 @@ function CategoryHub() {
           <h1 style={{ margin: 0 }}>{category.name} Tools</h1>
         </div>
         <p className="prose">{category.description}</p>
-        <p className="mono" style={{ color: "var(--muted)", fontSize: "0.85rem" }}>{tools.length} tools</p>
+        <p className="mono" style={{ color: "var(--muted)", fontSize: "0.85rem" }}>
+          {tools.length} tools
+        </p>
 
         {tools.length > 0 ? (
           <div className="grid grid-3" style={{ marginTop: 20 }}>
@@ -60,14 +65,21 @@ function CategoryHub() {
           <div className="card" style={{ textAlign: "center", marginTop: 20 }}>
             <h2>Coming soon</h2>
             <p style={{ color: "var(--muted)" }}>We're still building tools for this category.</p>
-            <Link to="/" className="btn btn-sm">Suggest a tool</Link>
+            <Link to="/" className="btn btn-sm">
+              Suggest a tool
+            </Link>
           </div>
         )}
 
         <h2 style={{ marginTop: 40 }}>Other categories</h2>
         <div className="wc-toolbar">
           {CATEGORIES.filter((c) => c.id !== category.id).map((c) => (
-            <Link key={c.id} to="/tools/$category" params={{ category: c.id }} className="btn btn-sm">
+            <Link
+              key={c.id}
+              to="/tools/$category"
+              params={{ category: c.id }}
+              className="btn btn-sm"
+            >
               {c.name}
             </Link>
           ))}

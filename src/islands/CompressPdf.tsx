@@ -14,7 +14,11 @@ export default function CompressPdf() {
   const [level, setLevel] = useState<Level>("balanced");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [result, setResult] = useState<{ blob: Blob; original: number; imagesRecompressed: number } | null>(null);
+  const [result, setResult] = useState<{
+    blob: Blob;
+    original: number;
+    imagesRecompressed: number;
+  } | null>(null);
 
   const onFiles = (files: File[]) => {
     const f = files[0];
@@ -58,25 +62,57 @@ export default function CompressPdf() {
       result={
         result ? (
           <div className="card">
-            <div className="stat-row"><span style={{ color: "var(--muted)" }}>Original</span><span className="val">{formatBytes(result.original)}</span></div>
-            <div className="stat-row"><span style={{ color: "var(--muted)" }}>Compressed</span><span className="val">{formatBytes(result.blob.size)}</span></div>
-            <div className="stat-row"><span style={{ color: "var(--muted)" }}>Saved</span><span className="val" style={{ color: "var(--success)" }}>{percentSaved(result.original, result.blob.size)}%</span></div>
+            <div className="stat-row">
+              <span style={{ color: "var(--muted)" }}>Original</span>
+              <span className="val">{formatBytes(result.original)}</span>
+            </div>
+            <div className="stat-row">
+              <span style={{ color: "var(--muted)" }}>Compressed</span>
+              <span className="val">{formatBytes(result.blob.size)}</span>
+            </div>
+            <div className="stat-row">
+              <span style={{ color: "var(--muted)" }}>Saved</span>
+              <span className="val" style={{ color: "var(--success)" }}>
+                {percentSaved(result.original, result.blob.size)}%
+              </span>
+            </div>
             {result.imagesRecompressed === 0 && (
               <p style={{ marginTop: 10, fontSize: "0.85rem", color: "var(--muted)" }}>
-                No compressible images found in this PDF — its size mostly comes from text, fonts, or vector content, which we don't touch to avoid altering how the document looks.
+                No compressible images found in this PDF — its size mostly comes from text, fonts,
+                or vector content, which we don't touch to avoid altering how the document looks.
               </p>
             )}
-            <button className="btn btn-primary" style={{ marginTop: 14, width: "100%" }} onClick={() => { downloadBlob(result.blob, `${baseName(file!.name)}-compressed.pdf`); track("result_downloaded", { slug: "compress-pdf" }); }}>Download compressed PDF</button>
-            <button className="btn btn-sm" style={{ marginTop: 8, width: "100%" }} onClick={reset}>Compress another PDF</button>
+            <button
+              className="btn btn-primary"
+              style={{ marginTop: 14, width: "100%" }}
+              onClick={() => {
+                downloadBlob(result.blob, `${baseName(file!.name)}-compressed.pdf`);
+                track("result_downloaded", { slug: "compress-pdf" });
+              }}
+            >
+              Download compressed PDF
+            </button>
+            <button className="btn btn-sm" style={{ marginTop: 8, width: "100%" }} onClick={reset}>
+              Compress another PDF
+            </button>
           </div>
         ) : null
       }
     >
-      {!file && <DropZone accept="application/pdf" onFiles={onFiles} hint="Drop a PDF to compress" />}
+      {!file && (
+        <DropZone accept="application/pdf" onFiles={onFiles} hint="Drop a PDF to compress" />
+      )}
       {file && (
         <>
-          <p style={{ fontWeight: 600 }}>{file.name} <span className="mono" style={{ color: "var(--muted)", fontWeight: 400 }}>({formatBytes(file.size)})</span></p>
-          <button className="btn btn-sm" style={{ marginTop: 6 }} onClick={reset}>Choose another</button>
+          <p style={{ fontWeight: 600 }}>
+            {file.name}{" "}
+            <span className="mono" style={{ color: "var(--muted)", fontWeight: 400 }}>
+              ({formatBytes(file.size)})
+            </span>
+          </p>
+          <button className="btn btn-sm" style={{ marginTop: 6 }} onClick={reset}>
+            Choose another
+          </button>
         </>
       )}
 
@@ -94,9 +130,15 @@ export default function CompressPdf() {
         />
       </div>
       <div style={{ marginTop: 16 }}>
-        <button className="btn btn-primary" onClick={compress} disabled={!file || busy}>{busy ? "Compressing…" : "Compress PDF"}</button>
+        <button className="btn btn-primary" onClick={compress} disabled={!file || busy}>
+          {busy ? "Compressing…" : "Compress PDF"}
+        </button>
       </div>
-      {error && <div style={{ marginTop: 12 }}><ErrorNotice>{error}</ErrorNotice></div>}
+      {error && (
+        <div style={{ marginTop: 12 }}>
+          <ErrorNotice>{error}</ErrorNotice>
+        </div>
+      )}
       <PrivacyNote />
     </ToolShell>
   );

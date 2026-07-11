@@ -1,8 +1,4 @@
-export type TrackEvent =
-  | "tool_viewed"
-  | "tool_used"
-  | "result_downloaded"
-  | "related_clicked";
+export type TrackEvent = "tool_viewed" | "tool_used" | "result_downloaded" | "related_clicked";
 
 const isDev = import.meta.env.DEV;
 

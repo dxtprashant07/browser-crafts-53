@@ -37,7 +37,11 @@ export default function QrCodeGenerator() {
     }
     (async () => {
       try {
-        const png = await QRCode.toDataURL(payload, { width: 1024, margin: 2, errorCorrectionLevel: "M" });
+        const png = await QRCode.toDataURL(payload, {
+          width: 1024,
+          margin: 2,
+          errorCorrectionLevel: "M",
+        });
         const svgStr = await QRCode.toString(payload, { type: "svg", margin: 2 });
         if (!cancelled) {
           setDataUrl(png);
@@ -64,14 +68,25 @@ export default function QrCodeGenerator() {
     track("result_downloaded", { slug: "qr-code-generator", format: "svg" });
   };
 
-  const altText = tab === "link" ? `QR code linking to ${link}` : tab === "wifi" ? `QR code for Wi-Fi network ${ssid}` : "QR code for text";
+  const altText =
+    tab === "link"
+      ? `QR code linking to ${link}`
+      : tab === "wifi"
+        ? `QR code for Wi-Fi network ${ssid}`
+        : "QR code for text";
 
   return (
     <ToolShell
       result={
         dataUrl ? (
           <div className="card" style={{ textAlign: "center" }}>
-            <img src={dataUrl} alt={altText} width={220} height={220} style={{ maxWidth: "100%", height: "auto", imageRendering: "pixelated" }} />
+            <img
+              src={dataUrl}
+              alt={altText}
+              width={220}
+              height={220}
+              style={{ maxWidth: "100%", height: "auto", imageRendering: "pixelated" }}
+            />
             <div className="wc-toolbar" style={{ justifyContent: "center", marginTop: 14 }}>
               <button className="btn btn-primary btn-sm" onClick={downloadPng}>
                 Download PNG
@@ -99,29 +114,66 @@ export default function QrCodeGenerator() {
 
       {tab === "link" && (
         <>
-          <label className="field" htmlFor="qr-link">URL</label>
-          <input id="qr-link" className="input" placeholder="https://example.com" value={link} onChange={(e) => setLink(e.target.value)} />
+          <label className="field" htmlFor="qr-link">
+            URL
+          </label>
+          <input
+            id="qr-link"
+            className="input"
+            placeholder="https://example.com"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+          />
         </>
       )}
       {tab === "text" && (
         <>
-          <label className="field" htmlFor="qr-text">Text</label>
-          <textarea id="qr-text" className="textarea" placeholder="Any text to encode…" value={text} onChange={(e) => setText(e.target.value)} />
+          <label className="field" htmlFor="qr-text">
+            Text
+          </label>
+          <textarea
+            id="qr-text"
+            className="textarea"
+            placeholder="Any text to encode…"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
         </>
       )}
       {tab === "wifi" && (
         <div className="stack">
           <div>
-            <label className="field" htmlFor="qr-ssid">Network name (SSID)</label>
-            <input id="qr-ssid" className="input" value={ssid} onChange={(e) => setSsid(e.target.value)} />
+            <label className="field" htmlFor="qr-ssid">
+              Network name (SSID)
+            </label>
+            <input
+              id="qr-ssid"
+              className="input"
+              value={ssid}
+              onChange={(e) => setSsid(e.target.value)}
+            />
           </div>
           <div>
-            <label className="field" htmlFor="qr-pass">Password</label>
-            <input id="qr-pass" className="input" value={pass} onChange={(e) => setPass(e.target.value)} />
+            <label className="field" htmlFor="qr-pass">
+              Password
+            </label>
+            <input
+              id="qr-pass"
+              className="input"
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
+            />
           </div>
           <div>
-            <label className="field" htmlFor="qr-enc">Security</label>
-            <select id="qr-enc" className="input" value={enc} onChange={(e) => setEnc(e.target.value)}>
+            <label className="field" htmlFor="qr-enc">
+              Security
+            </label>
+            <select
+              id="qr-enc"
+              className="input"
+              value={enc}
+              onChange={(e) => setEnc(e.target.value)}
+            >
               <option value="WPA">WPA/WPA2</option>
               <option value="WEP">WEP</option>
               <option value="nopass">None</option>
@@ -129,7 +181,11 @@ export default function QrCodeGenerator() {
           </div>
         </div>
       )}
-      {error && <div style={{ marginTop: 12 }}><ErrorNotice>{error}</ErrorNotice></div>}
+      {error && (
+        <div style={{ marginTop: 12 }}>
+          <ErrorNotice>{error}</ErrorNotice>
+        </div>
+      )}
     </ToolShell>
   );
 }

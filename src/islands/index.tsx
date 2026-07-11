@@ -3,6 +3,7 @@ import { ClientOnly } from "@tanstack/react-router";
 
 const MAP: Record<string, () => Promise<{ default: ComponentType }>> = {
   "case-converter": () => import("@/islands/CaseConverter"),
+  "text-compare": () => import("@/islands/TextCompare"),
   "word-counter": () => import("@/islands/WordCounter"),
   "base64-encode-decode": () => import("@/islands/Base64Tool"),
   "json-formatter": () => import("@/islands/JsonFormatter"),
@@ -26,7 +27,16 @@ function getComponent(slug: string): ComponentType | null {
 
 function Fallback() {
   return (
-    <div className="card" style={{ minHeight: 200, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--muted)" }}>
+    <div
+      className="card"
+      style={{
+        minHeight: 200,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "var(--muted)",
+      }}
+    >
       Loading tool…
     </div>
   );

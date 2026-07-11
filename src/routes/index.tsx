@@ -51,37 +51,83 @@ function Index() {
 
   return (
     <SiteChrome>
-      <section className="container hero">
-        <h1>
-          Small jobs.
-          <br />
-          Done in your browser.
-        </h1>
-        <p className="sub">
-          Free tools that work instantly and never see your files — no account, no upload, no
-          paywall.
-        </p>
-        <button className="big-search" onClick={() => setOpen(true)} aria-label="Search tools">
-          <span aria-hidden>🔍</span>
-          <span>What do you need to do?</span>
-          <span className="kbd">Ctrl K</span>
-        </button>
-        <div className="example-chips">
-          {HERO_CHIPS.map((c) => (
-            <button
-              key={c.slug}
-              onClick={() =>
-                navigate({
-                  to: "/tools/$category/$slug",
-                  params: { category: c.category, slug: c.slug },
-                })
-              }
+      <section className="hero">
+        <div className="hero-glow" aria-hidden />
+        <div className="container hero-inner">
+          <span className="hero-eyebrow">
+            <span className="pulse" aria-hidden />
+            12 free browser tools · nothing uploaded
+          </span>
+          <h1>
+            Small jobs.
+            <br />
+            Done in <span className="grad">your browser</span>.
+          </h1>
+          <p className="sub">
+            Free tools that work instantly and never see your files — no account, no upload, no
+            paywall.
+          </p>
+          <button className="big-search" onClick={() => setOpen(true)} aria-label="Search tools">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden
+              focusable="false"
             >
-              {c.label}
-            </button>
-          ))}
+              <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+              <line
+                x1="16.6"
+                y1="16.6"
+                x2="21"
+                y2="21"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span className="bs-label">What do you need to do?</span>
+            <span className="kbd">Ctrl K</span>
+          </button>
+          <div className="example-chips">
+            <span className="ec-lead">Popular:</span>
+            {HERO_CHIPS.map((c) => (
+              <button
+                key={c.slug}
+                onClick={() =>
+                  navigate({
+                    to: "/tools/$category/$slug",
+                    params: { category: c.category, slug: c.slug },
+                  })
+                }
+              >
+                {c.label}
+                <span className="ec-arrow" aria-hidden>
+                  →
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="hero-stats">
+            <div className="hero-stat">
+              <b>0</b>
+              <span>uploads</span>
+            </div>
+            <div className="hero-stat">
+              <b>0</b>
+              <span>accounts</span>
+            </div>
+            <div className="hero-stat">
+              <b>0</b>
+              <span>paywalls</span>
+            </div>
+            <div className="hero-stat">
+              <b>&lt;2s</b>
+              <span>load time</span>
+            </div>
+          </div>
         </div>
-        <p className="trust-line">0 uploads · 0 accounts · 0 paywalls · &lt;2s loads</p>
       </section>
 
       <section className="container section" id="popular" aria-labelledby="popular-heading">
@@ -92,7 +138,10 @@ function Index() {
           </Link>
         </div>
         <div className="bento">
-          <div className="feature card" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <div
+            className="feature card"
+            style={{ display: "flex", flexDirection: "column", gap: 12 }}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <CategoryChip category="image" />
               <div>
@@ -122,7 +171,12 @@ function Index() {
             <h2 style={{ marginBottom: 18 }}>Browse by category</h2>
             <div className="cat-two">
               {CATEGORIES.map((c) => (
-                <Link key={c.id} to="/tools/$category" params={{ category: c.id }} className="cat-item">
+                <Link
+                  key={c.id}
+                  to="/tools/$category"
+                  params={{ category: c.id }}
+                  className="cat-item"
+                >
                   <CategoryChip category={c.id} />
                   <span>{CAT_DISPLAY[c.id] ?? c.name}</span>
                   <span className="count">{categoryCount(c.id)}</span>

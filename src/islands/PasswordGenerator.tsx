@@ -24,7 +24,10 @@ function generate(length: number, active: SetKey[]): string {
 // Real Shannon entropy for a uniformly-random password: length * log2(pool size).
 // 80 bits is the rough point past which offline brute-force is impractical,
 // so we treat it as the top of the meter.
-function strength(pw: string, active: SetKey[]): { label: string; pct: number; color: string; bits: number } {
+function strength(
+  pw: string,
+  active: SetKey[],
+): { label: string; pct: number; color: string; bits: number } {
   const pool = active.reduce((n, k) => n + SETS[k].length, 0);
   const bits = pw.length && pool ? Math.round(pw.length * Math.log2(pool)) : 0;
   const pct = Math.min(100, Math.round((bits / 80) * 100));
@@ -43,6 +46,17 @@ export default function PasswordGenerator() {
     symbols: true,
   });
   const [password, setPassword] = useState("");
+  const [clickCopied, setClickCopied] = useState(false);
+
+  const copyPassword = async () => {
+    try {
+      await navigator.clipboard.writeText(password);
+      setClickCopied(true);
+      setTimeout(() => setClickCopied(false), 1400);
+    } catch {
+      /* ignore */
+    }
+  };
 
   const active = (Object.keys(sets) as SetKey[]).filter((k) => sets[k]);
 
@@ -61,21 +75,44 @@ export default function PasswordGenerator() {
 
   return (
     <ToolShell>
-      <div className="card" style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18, padding: 16 }}>
-        <code className="mono" style={{ fontSize: "1.15rem", wordBreak: "break-all", flex: 1 }} aria-live="polite">
-          {password || "…"}
+      <div
+        className="card"
+        style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18, padding: 16 }}
+      >
+        <code
+          className="mono"
+          style={{ fontSize: "1.15rem", wordBreak: "break-all", flex: 1, cursor: "pointer" }}
+          aria-live="polite"
+          title="Click to copy"
+          onClick={copyPassword}
+        >
+          {clickCopied ? "✓ Copied to clipboard" : password || "…"}
         </code>
         <CopyButton getText={() => password} />
-        <button className="icon-btn" onClick={regen} aria-label="Regenerate password" title="Regenerate">
+        <button
+          className="icon-btn"
+          onClick={regen}
+          aria-label="Regenerate password"
+          title="Regenerate"
+        >
           ↻
         </button>
       </div>
 
       <div style={{ marginBottom: 6, display: "flex", justifyContent: "space-between" }}>
         <span style={{ fontSize: "0.85rem", color: "var(--muted)" }}>Strength</span>
-        <span className="mono" style={{ color: s.color, fontWeight: 600 }}>{s.label} · {s.bits} bits</span>
+        <span className="mono" style={{ color: s.color, fontWeight: 600 }}>
+          {s.label} · {s.bits} bits
+        </span>
       </div>
-      <div className="progress" role="meter" aria-valuenow={s.pct} aria-valuemin={0} aria-valuemax={100} aria-label="Password strength">
+      <div
+        className="progress"
+        role="meter"
+        aria-valuenow={s.pct}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label="Password strength"
+      >
         <span style={{ width: `${s.pct}%`, background: s.color }} />
       </div>
 

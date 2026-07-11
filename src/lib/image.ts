@@ -10,8 +10,5 @@ export async function loadBitmap(file: File): Promise<ImageBitmap> {
 }
 
 export function isImageFile(file: File): boolean {
-  return (
-    /^image\//.test(file.type) ||
-    /\.(jpe?g|png|webp|heic|heif|gif|bmp)$/i.test(file.name)
-  );
+  return /^image\//.test(file.type) || /\.(jpe?g|png|webp|heic|heif|gif|bmp)$/i.test(file.name);
 }

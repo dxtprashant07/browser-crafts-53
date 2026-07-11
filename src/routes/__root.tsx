@@ -27,7 +27,9 @@ function NotFoundComponent() {
       <div className="container section" style={{ textAlign: "center", minHeight: "50vh" }}>
         <h1 style={{ fontSize: "5rem" }}>404</h1>
         <h2>Page not found</h2>
-        <p style={{ color: "var(--muted)" }}>The page you're looking for doesn't exist or has moved.</p>
+        <p style={{ color: "var(--muted)" }}>
+          The page you're looking for doesn't exist or has moved.
+        </p>
         <Link to="/" className="btn btn-primary" style={{ marginTop: 12 }}>
           Go home
         </Link>
@@ -43,7 +45,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="container section" style={{ textAlign: "center", minHeight: "50vh" }}>
       <h1 style={{ fontSize: "1.4rem" }}>This page didn't load</h1>
-      <p style={{ color: "var(--muted)" }}>Something went wrong. Try refreshing or head back home.</p>
+      <p style={{ color: "var(--muted)" }}>
+        Something went wrong. Try refreshing or head back home.
+      </p>
       <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 16 }}>
         <button
           className="btn btn-primary"

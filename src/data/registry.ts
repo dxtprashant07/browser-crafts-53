@@ -65,7 +65,8 @@ export const TOOLS: Tool[] = [
     metaDescription:
       "Compress images online for free. Adjust quality, see before/after sizes and percent saved, then download. Runs 100% in your browser — no uploads.",
     h1: "Image Compressor",
-    intro: "Drop an image, pick a quality level, and download a smaller file — nothing is ever uploaded.",
+    intro:
+      "Drop an image, pick a quality level, and download a smaller file — nothing is ever uploaded.",
     howTo: [
       "Drop or select a JPG, PNG, or WEBP image.",
       "Drag the quality slider until the size and preview look right.",
@@ -97,7 +98,8 @@ export const TOOLS: Tool[] = [
     metaDescription:
       "Resize JPG, PNG, and WEBP images to exact width and height with an aspect-ratio lock. Free, private, and fully browser-based — no uploads required.",
     h1: "Image Resizer",
-    intro: "Set a width and height, keep the aspect ratio if you like, and download the resized image.",
+    intro:
+      "Set a width and height, keep the aspect ratio if you like, and download the resized image.",
     howTo: [
       "Drop or select an image to resize.",
       "Enter a target width or height — lock the ratio to keep proportions.",
@@ -128,7 +130,8 @@ export const TOOLS: Tool[] = [
     metaDescription:
       "Convert images between JPG, PNG, and WEBP, including iPhone HEIC photos. Free, instant, and fully in-browser — your files never leave your device.",
     h1: "Image Format Converter",
-    intro: "Drop an image — even an iPhone HEIC — pick a target format, and download the converted file.",
+    intro:
+      "Drop an image — even an iPhone HEIC — pick a target format, and download the converted file.",
     howTo: [
       "Drop or select an image (HEIC supported).",
       "Choose the output format: JPG, PNG, or WEBP.",
@@ -285,7 +288,8 @@ export const TOOLS: Tool[] = [
     metaDescription:
       "Format, minify, and validate JSON instantly. Get exact line and position on errors, copy results, and see a Valid JSON badge. Private and in-browser.",
     h1: "JSON Formatter / Validator",
-    intro: "Paste JSON to pretty-print, minify, or validate it — errors show the exact line and position.",
+    intro:
+      "Paste JSON to pretty-print, minify, or validate it — errors show the exact line and position.",
     howTo: [
       "Paste or type your JSON into the input.",
       "Click Format to beautify, or Minify to compact it.",
@@ -305,7 +309,7 @@ export const TOOLS: Tool[] = [
         a: "Yes, within your browser's memory. Very large files may take a moment to render.",
       },
     ],
-    related: ["base64-encode-decode", "word-counter", "case-converter", "password-generator"],
+    related: ["text-compare", "base64-encode-decode", "word-counter", "case-converter"],
     popular: true,
   },
   {
@@ -337,7 +341,7 @@ export const TOOLS: Tool[] = [
         a: "It's how often your most-used words appear relative to the total, useful for SEO and editing.",
       },
     ],
-    related: ["case-converter", "json-formatter", "base64-encode-decode", "password-generator"],
+    related: ["text-compare", "case-converter", "json-formatter", "base64-encode-decode"],
     popular: true,
   },
   {
@@ -349,7 +353,8 @@ export const TOOLS: Tool[] = [
     metaDescription:
       "Generate secure random passwords with adjustable length and character sets. Includes a strength meter and one-click copy. Uses crypto-grade randomness.",
     h1: "Password Generator",
-    intro: "Pick a length and character mix, then copy a strong password generated with secure randomness.",
+    intro:
+      "Pick a length and character mix, then copy a strong password generated with secure randomness.",
     howTo: [
       "Set the password length with the slider.",
       "Toggle uppercase, lowercase, numbers, and symbols.",
@@ -403,6 +408,38 @@ export const TOOLS: Tool[] = [
     related: ["json-formatter", "word-counter", "case-converter", "password-generator"],
   },
   {
+    slug: "text-compare",
+    name: "Text Compare",
+    category: "text",
+    shortDesc: "Compare two texts and see exactly what changed — by word, line, or character.",
+    metaTitle: "Text Compare — Diff Two Texts Online",
+    metaDescription:
+      "Compare two blocks of text and highlight additions and deletions by word, line, or character. See a similarity score and copy the diff. Free and fully in-browser.",
+    h1: "Text Compare",
+    intro:
+      "Paste an original and a changed version of text to see exactly what was added or removed.",
+    howTo: [
+      "Paste the original text on the left and the changed text on the right.",
+      "Choose to compare by words, lines, or characters.",
+      "Click Compare to see additions, removals, and a similarity score.",
+    ],
+    faqs: [
+      {
+        q: "What's the difference between word, line, and character mode?",
+        a: "Word and character mode highlight fine-grained changes within a paragraph. Line mode compares whole lines at a time, which suits code or line-by-line documents.",
+      },
+      {
+        q: "How is the similarity score calculated?",
+        a: "It's the share of words (or lines/characters, depending on mode) that are identical between the two texts, out of everything compared.",
+      },
+      {
+        q: "Is my text uploaded anywhere?",
+        a: "No. The comparison runs entirely in your browser using a diff algorithm — nothing is sent to a server.",
+      },
+    ],
+    related: ["word-counter", "case-converter", "json-formatter", "base64-encode-decode"],
+  },
+  {
     slug: "case-converter",
     name: "Case Converter",
     category: "text",
@@ -411,7 +448,8 @@ export const TOOLS: Tool[] = [
     metaDescription:
       "Convert text to UPPERCASE, lowercase, Title Case, camelCase, or snake_case with one click. Smart title casing and copy button. Free and fully in-browser.",
     h1: "Case Converter",
-    intro: "Paste text and switch it to any case — with smart title casing that ignores small words.",
+    intro:
+      "Paste text and switch it to any case — with smart title casing that ignores small words.",
     howTo: [
       "Type or paste your text.",
       "Click the case you want to apply.",
@@ -431,7 +469,7 @@ export const TOOLS: Tool[] = [
         a: "No. All conversion runs locally in your browser.",
       },
     ],
-    related: ["word-counter", "json-formatter", "base64-encode-decode", "password-generator"],
+    related: ["text-compare", "word-counter", "json-formatter", "base64-encode-decode"],
   },
 ];
 

@@ -116,7 +116,9 @@ function decodeAsciiHex(bytes: Uint8Array): Uint8Array {
 }
 
 async function inflate(bytes: Uint8Array): Promise<Uint8Array> {
-  const stream = new Blob([new Uint8Array(bytes)]).stream().pipeThrough(new DecompressionStream("deflate"));
+  const stream = new Blob([new Uint8Array(bytes)])
+    .stream()
+    .pipeThrough(new DecompressionStream("deflate"));
   return new Uint8Array(await new Response(stream).arrayBuffer());
 }
 
@@ -188,9 +190,10 @@ function resolveColorSpace(context: PDFContext, csObj: unknown, depth = 0): Colo
     if (head === "/CalGray") return { kind: "gray" };
     if (head === "/ICCBased") {
       const stream = resolved.lookup(1);
-      const n = stream instanceof PDFRawStream
-        ? stream.dict.lookupMaybe(PDFName.of("N"), PDFNumber)?.asNumber()
-        : undefined;
+      const n =
+        stream instanceof PDFRawStream
+          ? stream.dict.lookupMaybe(PDFName.of("N"), PDFNumber)?.asNumber()
+          : undefined;
       if (n === 3) return { kind: "rgb" };
       if (n === 1) return { kind: "gray" };
       return null; // N=4 (CMYK) unsupported — skip rather than mis-convert colors
@@ -199,7 +202,8 @@ function resolveColorSpace(context: PDFContext, csObj: unknown, depth = 0): Colo
       const base = resolveColorSpace(context, resolved.get(1), depth + 1);
       if (!base || base.kind === "indexed") return null;
       const rawLookup = resolved.get(3);
-      const lookupObj: unknown = rawLookup instanceof PDFRef ? context.lookup(rawLookup) : rawLookup;
+      const lookupObj: unknown =
+        rawLookup instanceof PDFRef ? context.lookup(rawLookup) : rawLookup;
       let palette: Uint8Array | null = null;
       if (lookupObj instanceof PDFString || lookupObj instanceof PDFHexString) {
         palette = lookupObj.asBytes();
@@ -215,7 +219,12 @@ function resolveColorSpace(context: PDFContext, csObj: unknown, depth = 0): Colo
   return null;
 }
 
-function buildImageData(raw: Uint8Array, width: number, height: number, cs: ColorSpaceInfo): ImageData | null {
+function buildImageData(
+  raw: Uint8Array,
+  width: number,
+  height: number,
+  cs: ColorSpaceInfo,
+): ImageData | null {
   const out = new Uint8ClampedArray(width * height * 4);
   if (cs.kind === "rgb") {
     if (raw.length < width * height * 3) return null;
@@ -283,7 +292,9 @@ async function decodeImageXObject(
       else if (filters[i] === "/ASCIIHexDecode") data = decodeAsciiHex(data);
       else return null;
     }
-    const bitmap = await createImageBitmap(new Blob([new Uint8Array(data)], { type: "image/jpeg" }));
+    const bitmap = await createImageBitmap(
+      new Blob([new Uint8Array(data)], { type: "image/jpeg" }),
+    );
     const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
     const ctx = canvas.getContext("2d")!;
     ctx.drawImage(bitmap, 0, 0);
@@ -305,8 +316,9 @@ async function decodeImageXObject(
 
     let raw = await inflate(contents);
 
-    const decodeParms = dict.lookupMaybe(PDFName.of("DecodeParms"), PDFDict)
-      ?? dict.lookupMaybe(PDFName.of("DP"), PDFDict);
+    const decodeParms =
+      dict.lookupMaybe(PDFName.of("DecodeParms"), PDFDict) ??
+      dict.lookupMaybe(PDFName.of("DP"), PDFDict);
     const predictor = decodeParms?.lookupMaybe(PDFName.of("Predictor"), PDFNumber)?.asNumber() ?? 1;
     if (predictor >= 10) {
       raw = undoPngPredictor(raw, width, cs.kind === "rgb" ? 3 : 1);
@@ -421,7 +433,12 @@ self.onmessage = async (e: MessageEvent<PdfJob>) => {
         parts.push({ name: "extracted.pdf", bytes: toArrayBuffer(await toBytes(doc)) });
       }
     }
-    (self as unknown as Worker).postMessage({ id: job.id, ok: true, parts, imagesRecompressed } as PdfResult);
+    (self as unknown as Worker).postMessage({
+      id: job.id,
+      ok: true,
+      parts,
+      imagesRecompressed,
+    } as PdfResult);
   } catch (err) {
     (self as unknown as Worker).postMessage({
       id: job.id,
