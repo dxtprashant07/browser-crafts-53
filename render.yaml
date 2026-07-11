@@ -1,0 +1,15 @@
+# One-click deploy on Render (https://render.com) using the Dockerfile.
+# Push this repo, then "New + Blueprint" and point it at this file.
+services:
+  - type: web
+    name: tools-platform
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
