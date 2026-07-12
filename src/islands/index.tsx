@@ -7,6 +7,8 @@ const MAP: Record<string, () => Promise<{ default: ComponentType }>> = {
   "word-counter": () => import("@/islands/WordCounter"),
   "base64-encode-decode": () => import("@/islands/Base64Tool"),
   "json-formatter": () => import("@/islands/JsonFormatter"),
+  "json-diff": () => import("@/islands/JsonDiff"),
+  "regex-tester": () => import("@/islands/RegexTester"),
   "password-generator": () => import("@/islands/PasswordGenerator"),
   "qr-code-generator": () => import("@/islands/QrCodeGenerator"),
   "compress-image": () => import("@/islands/ImageCompressor"),

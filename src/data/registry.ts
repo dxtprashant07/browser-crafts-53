@@ -309,8 +309,72 @@ export const TOOLS: Tool[] = [
         a: "Yes, within your browser's memory. Very large files may take a moment to render.",
       },
     ],
-    related: ["text-compare", "base64-encode-decode", "word-counter", "case-converter"],
+    related: ["json-diff", "text-compare", "base64-encode-decode", "regex-tester"],
     popular: true,
+  },
+  {
+    slug: "json-diff",
+    name: "JSON Diff",
+    category: "developer",
+    shortDesc: "Compare two JSON documents and see exactly what changed — keys, values, structure.",
+    metaTitle: "JSON Diff — Compare Two JSON Files Online",
+    metaDescription:
+      "Compare two JSON documents side by side and highlight added, removed, and changed values. Keys are sorted so reordering isn't flagged. Free and fully in-browser.",
+    h1: "JSON Diff",
+    intro:
+      "Paste two JSON documents to see a structural, side-by-side diff — reordered keys are ignored.",
+    howTo: [
+      "Paste the original JSON on the left and the changed JSON on the right.",
+      "Click Compare to see a side-by-side diff with a similarity score.",
+      "Copy the unified diff, or swap the two sides.",
+    ],
+    faqs: [
+      {
+        q: "Does key order matter?",
+        a: "No. Both documents are normalized with keys sorted, so reordering the same keys is not reported as a difference — only real structural or value changes are.",
+      },
+      {
+        q: "What if my JSON is invalid?",
+        a: "You'll get a clear message telling you which side failed to parse, so you can fix it before comparing.",
+      },
+      {
+        q: "Is my data uploaded?",
+        a: "No. Parsing and diffing run entirely in your browser — nothing leaves your device.",
+      },
+    ],
+    related: ["json-formatter", "text-compare", "regex-tester", "base64-encode-decode"],
+  },
+  {
+    slug: "regex-tester",
+    name: "Regex Tester",
+    category: "developer",
+    shortDesc: "Test regular expressions live with match highlighting, flags, and capture groups.",
+    metaTitle: "Regex Tester — Test Regular Expressions Online",
+    metaDescription:
+      "Test JavaScript regular expressions live: highlight matches in your text, toggle flags, and inspect capture groups. Instant, private, and fully in-browser.",
+    h1: "Regex Tester",
+    intro:
+      "Write a regular expression and see every match highlighted in your test text, with capture groups.",
+    howTo: [
+      "Type a regular expression and toggle the flags you need (g, i, m, s, u, y).",
+      "Paste text into the test string box.",
+      "See matches highlighted live, with a table of capture groups and positions.",
+    ],
+    faqs: [
+      {
+        q: "Which regex flavor is this?",
+        a: "JavaScript (ECMAScript) regular expressions, using your browser's built-in RegExp engine.",
+      },
+      {
+        q: "What do the flags mean?",
+        a: "g = global (all matches), i = ignore case, m = multiline, s = dotall (dot matches newlines), u = unicode, y = sticky.",
+      },
+      {
+        q: "Is my text sent anywhere?",
+        a: "No. The pattern runs against your text entirely in the browser — nothing is uploaded.",
+      },
+    ],
+    related: ["json-formatter", "json-diff", "text-compare", "base64-encode-decode"],
   },
   {
     slug: "word-counter",
