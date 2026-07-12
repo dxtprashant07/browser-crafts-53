@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useTheme } from "@/lib/theme";
 import { useCommandPalette } from "@/components/CommandPalette";
-import { CATEGORIES } from "@/data/registry";
+import { CATEGORIES, getToolsByCategory, categoryCount } from "@/data/registry";
 
 const CommandPalette = lazy(() => import("@/components/CommandPalette"));
 
@@ -246,25 +246,80 @@ export function SiteChrome({ children }: { children: ReactNode }) {
 
       <footer className="site-footer">
         <div className="container footer-grid">
-          <div className="footer-col" style={{ maxWidth: 260 }}>
-            <h4>Tools Platform</h4>
-            <p style={{ margin: 0 }}>
-              Small jobs, done in your browser. No uploads, no accounts, no paywalls.
+          <div className="footer-brand">
+            <Link to="/" className="brand" aria-label="Tools Platform home">
+              <span className="brand-mark">
+                <BrandMark />
+              </span>
+              <span className="brand-text">
+                <span className="brand-title">Tools Platform</span>
+                <span className="brand-sub">One Platform. Many Tools.</span>
+              </span>
+            </Link>
+            <p className="footer-tagline">
+              Small jobs, done in your browser. Every tool runs on your device — no uploads, no
+              accounts, no paywalls.
             </p>
+            <ul className="footer-pledge">
+              <li>
+                <span className="check" aria-hidden>
+                  ✓
+                </span>{" "}
+                100% client-side
+              </li>
+              <li>
+                <span className="check" aria-hidden>
+                  ✓
+                </span>{" "}
+                Files never uploaded
+              </li>
+              <li>
+                <span className="check" aria-hidden>
+                  ✓
+                </span>{" "}
+                Free & open in any browser
+              </li>
+            </ul>
           </div>
-          {CATEGORIES.map((c) => (
-            <div className="footer-col" key={c.id}>
-              <h4>{c.name}</h4>
-              <Link to="/tools/$category" params={{ category: c.id }}>
-                All {c.name.toLowerCase()} tools
-              </Link>
+
+          <div className="footer-links">
+            {CATEGORIES.map((c) => {
+              const tools = getToolsByCategory(c.id).slice(0, 5);
+              return (
+                <div className="footer-col" key={c.id}>
+                  <h4>
+                    <span aria-hidden>{c.icon}</span> {c.name}
+                  </h4>
+                  {tools.map((t) => (
+                    <Link
+                      key={t.slug}
+                      to="/tools/$category/$slug"
+                      params={{ category: c.id, slug: t.slug }}
+                    >
+                      {t.name}
+                    </Link>
+                  ))}
+                  <Link to="/tools/$category" params={{ category: c.id }} className="footer-all">
+                    All {categoryCount(c.id)} {c.name.toLowerCase()} tools →
+                  </Link>
+                </div>
+              );
+            })}
+            <div className="footer-col">
+              <h4>Site</h4>
+              <a href="/#popular">Popular tools</a>
+              <a href="/#why">How it works</a>
+              <Link to="/privacy">Privacy</Link>
+              <Link to="/terms">Terms</Link>
             </div>
-          ))}
-          <div className="footer-col">
-            <h4>Site</h4>
-            <Link to="/privacy">Privacy</Link>
-            <Link to="/terms">Terms</Link>
           </div>
+        </div>
+
+        <div className="container footer-bottom">
+          <span>© {new Date().getFullYear()} Tools Platform. All rights reserved.</span>
+          <span className="footer-bottom-note">
+            <span aria-hidden>🔒</span> Runs entirely in your browser
+          </span>
         </div>
       </footer>
 

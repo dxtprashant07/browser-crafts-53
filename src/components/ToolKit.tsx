@@ -1,5 +1,4 @@
 import { useRef, useState, type ReactNode } from "react";
-import { AdSlot } from "@/components/ToolCard";
 
 export function Segmented<T extends string>({
   options,
@@ -121,7 +120,6 @@ export function ToolShell({ children, result }: { children: ReactNode; result?: 
       {result && (
         <div className="result-area" aria-live="polite">
           {result}
-          <AdSlot />
         </div>
       )}
     </>

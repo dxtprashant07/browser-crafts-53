@@ -109,24 +109,6 @@ function Index() {
               </button>
             ))}
           </div>
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <b>0</b>
-              <span>uploads</span>
-            </div>
-            <div className="hero-stat">
-              <b>0</b>
-              <span>accounts</span>
-            </div>
-            <div className="hero-stat">
-              <b>0</b>
-              <span>paywalls</span>
-            </div>
-            <div className="hero-stat">
-              <b>&lt;2s</b>
-              <span>load time</span>
-            </div>
-          </div>
         </div>
       </section>
 

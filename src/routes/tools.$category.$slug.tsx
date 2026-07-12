@@ -71,7 +71,13 @@ export const Route = createFileRoute("/tools/$category/$slug")({
 
 function ToolPage() {
   const { tool, cat } = Route.useLoaderData();
-  const WIDE_TOOLS = ["word-counter", "text-compare", "json-formatter"];
+  const WIDE_TOOLS = [
+    "word-counter",
+    "text-compare",
+    "json-formatter",
+    "json-diff",
+    "regex-tester",
+  ];
   const wide = WIDE_TOOLS.includes(tool.slug);
 
   useEffect(() => {
@@ -93,6 +99,8 @@ function ToolPage() {
       </p>
 
       <ToolIsland slug={tool.slug} />
+
+      <AdSlot />
 
       <section aria-labelledby="how-heading" style={{ marginTop: 40 }}>
         <h2 id="how-heading">How to use</h2>
