@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DropZone, ErrorNotice, PrivacyNote, ToolShell } from "@/components/ToolKit";
 import { loadBitmap, isImageFile } from "@/lib/image";
 import { runImageJob } from "@/lib/workers";
+import type { ImageJob } from "@/workers/image.worker";
 import { useObjectUrl } from "@/lib/useObjectUrl";
 import { baseName, downloadBlob, formatBytes, percentSaved } from "@/lib/format";
 import { track } from "@/lib/analytics";
@@ -37,11 +38,13 @@ export default function ImageCompressor() {
     try {
       const bitmap = await loadBitmap(f);
       const type = f.type === "image/png" ? "image/webp" : f.type || "image/jpeg";
-      const job: any = { op: "compress", bitmap, type, quality: q };
-      if (enableSize) {
-        job.width = width;
-        job.height = height;
-      }
+      const job: Omit<ImageJob, "id"> = {
+        op: "compress",
+        bitmap,
+        type,
+        quality: q,
+        ...(enableSize ? { width, height } : {}),
+      };
       const res = await runImageJob(job, [bitmap]);
       setDone({ blob: res.blob!, originalSize: f.size, name: f.name });
       track("tool_used", { slug: "compress-image", quality: q, size_enabled: enableSize });
@@ -119,18 +122,30 @@ export default function ImageCompressor() {
         />
       </div>
       <div style={{ marginTop: 18 }}>
-        <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", marginBottom: 12 }}>
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            cursor: "pointer",
+            marginBottom: 12,
+          }}
+        >
           <input
             type="checkbox"
             checked={enableSize}
             onChange={(e) => setEnableSize(e.target.checked)}
           />
-          <span className="field" style={{ margin: 0 }}>Resize image</span>
+          <span className="field" style={{ margin: 0 }}>
+            Resize image
+          </span>
         </label>
         {enableSize && (
           <div style={{ paddingLeft: 12, borderLeft: "2px solid var(--border)" }}>
             <div className="field" style={{ marginBottom: 12 }}>
-              <label htmlFor="w">Width: <span className="mono">{width}px</span></label>
+              <label htmlFor="w">
+                Width: <span className="mono">{width}px</span>
+              </label>
               <input
                 id="w"
                 type="range"
@@ -151,7 +166,9 @@ export default function ImageCompressor() {
               />
             </div>
             <div className="field" style={{ marginBottom: 12 }}>
-              <label htmlFor="h">Height: <span className="mono">{height}px</span></label>
+              <label htmlFor="h">
+                Height: <span className="mono">{height}px</span>
+              </label>
               <input
                 id="h"
                 type="range"
@@ -177,7 +194,9 @@ export default function ImageCompressor() {
                 checked={maintainAspect}
                 onChange={(e) => setMaintainAspect(e.target.checked)}
               />
-              <span className="field" style={{ margin: 0, fontSize: "0.9em" }}>Maintain aspect ratio</span>
+              <span className="field" style={{ margin: 0, fontSize: "0.9em" }}>
+                Maintain aspect ratio
+              </span>
             </label>
           </div>
         )}

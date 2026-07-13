@@ -6,7 +6,6 @@ export function track(eventName: TrackEvent, params: Record<string, unknown> = {
   if (typeof window === "undefined") return;
   // GA4 stub — in production this would push to dataLayer / gtag.
   if (isDev) {
-    // eslint-disable-next-line no-console
     console.log(`[analytics] ${eventName}`, params);
   }
   const w = window as unknown as { dataLayer?: unknown[] };
