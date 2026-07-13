@@ -14,6 +14,10 @@ interface Done {
 
 export default function ImageCompressor() {
   const [quality, setQuality] = useState(72);
+  const [enableSize, setEnableSize] = useState(false);
+  const [width, setWidth] = useState(800);
+  const [height, setHeight] = useState(600);
+  const [maintainAspect, setMaintainAspect] = useState(true);
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -33,9 +37,14 @@ export default function ImageCompressor() {
     try {
       const bitmap = await loadBitmap(f);
       const type = f.type === "image/png" ? "image/webp" : f.type || "image/jpeg";
-      const res = await runImageJob({ op: "compress", bitmap, type, quality: q }, [bitmap]);
+      const job: any = { op: "compress", bitmap, type, quality: q };
+      if (enableSize) {
+        job.width = width;
+        job.height = height;
+      }
+      const res = await runImageJob(job, [bitmap]);
       setDone({ blob: res.blob!, originalSize: f.size, name: f.name });
-      track("tool_used", { slug: "compress-image", quality: q });
+      track("tool_used", { slug: "compress-image", quality: q, size_enabled: enableSize });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Couldn't compress that image.");
     } finally {
@@ -108,6 +117,70 @@ export default function ImageCompressor() {
           onMouseUp={() => file && handle([file])}
           onTouchEnd={() => file && handle([file])}
         />
+      </div>
+      <div style={{ marginTop: 18 }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", marginBottom: 12 }}>
+          <input
+            type="checkbox"
+            checked={enableSize}
+            onChange={(e) => setEnableSize(e.target.checked)}
+          />
+          <span className="field" style={{ margin: 0 }}>Resize image</span>
+        </label>
+        {enableSize && (
+          <div style={{ paddingLeft: 12, borderLeft: "2px solid var(--border)" }}>
+            <div className="field" style={{ marginBottom: 12 }}>
+              <label htmlFor="w">Width: <span className="mono">{width}px</span></label>
+              <input
+                id="w"
+                type="range"
+                min={50}
+                max={4000}
+                step={10}
+                value={width}
+                onChange={(e) => {
+                  const newWidth = Number(e.target.value);
+                  setWidth(newWidth);
+                  if (maintainAspect && file) {
+                    const ratio = height / width;
+                    setHeight(Math.round(newWidth * ratio));
+                  }
+                }}
+                onMouseUp={() => file && handle([file])}
+                onTouchEnd={() => file && handle([file])}
+              />
+            </div>
+            <div className="field" style={{ marginBottom: 12 }}>
+              <label htmlFor="h">Height: <span className="mono">{height}px</span></label>
+              <input
+                id="h"
+                type="range"
+                min={50}
+                max={4000}
+                step={10}
+                value={height}
+                onChange={(e) => {
+                  const newHeight = Number(e.target.value);
+                  setHeight(newHeight);
+                  if (maintainAspect && file) {
+                    const ratio = width / height;
+                    setWidth(Math.round(newHeight * ratio));
+                  }
+                }}
+                onMouseUp={() => file && handle([file])}
+                onTouchEnd={() => file && handle([file])}
+              />
+            </div>
+            <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={maintainAspect}
+                onChange={(e) => setMaintainAspect(e.target.checked)}
+              />
+              <span className="field" style={{ margin: 0, fontSize: "0.9em" }}>Maintain aspect ratio</span>
+            </label>
+          </div>
+        )}
       </div>
       {busy && <p style={{ color: "var(--muted)", marginTop: 10 }}>Compressing…</p>}
       {error && (
