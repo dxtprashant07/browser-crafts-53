@@ -6,7 +6,10 @@ const EXAMPLE =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE3MzUwMDAwMDB9.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U";
 
 function base64UrlDecode(seg: string): string {
-  const b64 = seg.replace(/-/g, "+").replace(/_/g, "/").padEnd(seg.length + ((4 - (seg.length % 4)) % 4), "=");
+  const b64 = seg
+    .replace(/-/g, "+")
+    .replace(/_/g, "/")
+    .padEnd(seg.length + ((4 - (seg.length % 4)) % 4), "=");
   const bin = atob(b64);
   const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
   return new TextDecoder().decode(bytes);
@@ -37,7 +40,9 @@ export default function JwtDecoderTool() {
       track("tool_used", { slug: "jwt-decoder" });
       return { header: header.pretty, payload: payload.pretty, exp: payload.exp, iat: payload.iat };
     } catch {
-      return { error: "Couldn't decode this token — check it was copied in full and is base64url encoded." };
+      return {
+        error: "Couldn't decode this token — check it was copied in full and is base64url encoded.",
+      };
     }
   }, [input]);
 
@@ -101,7 +106,9 @@ export default function JwtDecoderTool() {
         <label className="field" htmlFor="jwt-input">
           JWT to decode
         </label>
-        <span className="tc-count">{input ? `${input.trim().length.toLocaleString()} chars` : ""}</span>
+        <span className="tc-count">
+          {input ? `${input.trim().length.toLocaleString()} chars` : ""}
+        </span>
       </div>
       <textarea
         id="jwt-input"

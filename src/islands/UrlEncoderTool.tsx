@@ -104,7 +104,9 @@ export default function UrlEncoderTool() {
       <textarea
         id="url-input"
         className="textarea mono-input"
-        placeholder={mode === "encode" ? "https://example.com/search?q=hello world" : "hello%20world"}
+        placeholder={
+          mode === "encode" ? "https://example.com/search?q=hello world" : "hello%20world"
+        }
         value={input}
         onChange={(e) => setInput(e.target.value)}
         style={{ minHeight: 160 }}
