@@ -90,7 +90,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image", content: absUrl("/og-image.png") },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Tools Platform — 20 free browser tools, nothing uploaded" },
+      {
+        property: "og:image:alt",
+        content: "Tools Platform — 20 free browser tools, nothing uploaded",
+      },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Tools Platform — Fast, Private Browser Tools" },
       {
