@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteChrome } from "@/components/SiteChrome";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { absUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({
@@ -10,9 +11,9 @@ export const Route = createFileRoute("/terms")({
         name: "description",
         content: "Terms of use for Tools Platform's free, browser-based tools.",
       },
-      { property: "og:url", content: "/terms" },
+      { property: "og:url", content: absUrl("/terms") },
     ],
-    links: [{ rel: "canonical", href: "/terms" }],
+    links: [{ rel: "canonical", href: absUrl("/terms") }],
   }),
   component: () => (
     <SiteChrome>

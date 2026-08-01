@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteChrome } from "@/components/SiteChrome";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { absUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -11,9 +12,9 @@ export const Route = createFileRoute("/privacy")({
         content:
           "How Tools Platform handles your data: it doesn't. Every tool runs in your browser.",
       },
-      { property: "og:url", content: "/privacy" },
+      { property: "og:url", content: absUrl("/privacy") },
     ],
-    links: [{ rel: "canonical", href: "/privacy" }],
+    links: [{ rel: "canonical", href: absUrl("/privacy") }],
   }),
   component: () => (
     <SiteChrome>

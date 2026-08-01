@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { CATEGORIES, getPopularTools, categoryCount } from "@/data/registry";
+import { CATEGORIES, TOOLS, getPopularTools, categoryCount } from "@/data/registry";
+import { absUrl } from "@/lib/site";
 import { SiteChrome } from "@/components/SiteChrome";
 import { ToolCard } from "@/components/ToolCard";
 import { useCommandPalette } from "@/components/CommandPalette";
@@ -27,8 +28,8 @@ const CAT_DISPLAY: Record<string, string> = {
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    links: [{ rel: "canonical", href: "/" }],
-    meta: [{ property: "og:url", content: "/" }],
+    links: [{ rel: "canonical", href: absUrl("/") }],
+    meta: [{ property: "og:url", content: absUrl("/") }],
     scripts: [
       {
         type: "application/ld+json",
@@ -36,7 +37,17 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "Tools Platform",
+          url: absUrl("/"),
           description: "Fast, private browser tools for images, PDFs, text, and code.",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Tools Platform",
+          url: absUrl("/"),
         }),
       },
     ],
@@ -56,7 +67,7 @@ function Index() {
         <div className="container hero-inner">
           <span className="hero-eyebrow">
             <span className="pulse" aria-hidden />
-            12 free browser tools · nothing uploaded
+            {TOOLS.length} free browser tools · nothing uploaded
           </span>
           <h1>
             Small jobs.
@@ -116,7 +127,7 @@ function Index() {
         <div className="section-head">
           <h2 id="popular-heading">Popular tools</h2>
           <Link to="/tools/$category" params={{ category: "image" }}>
-            All 12 tools →
+            All {TOOLS.length} tools →
           </Link>
         </div>
         <div className="bento">

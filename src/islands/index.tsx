@@ -17,6 +17,11 @@ const MAP: Record<string, () => Promise<{ default: ComponentType }>> = {
   "merge-pdf": () => import("@/islands/MergePdf"),
   "split-pdf": () => import("@/islands/SplitPdf"),
   "compress-pdf": () => import("@/islands/CompressPdf"),
+  "url-encode-decode": () => import("@/islands/UrlEncoderTool"),
+  "jwt-decoder": () => import("@/islands/JwtDecoderTool"),
+  "uuid-generator": () => import("@/islands/UuidGeneratorTool"),
+  "hash-generator": () => import("@/islands/HashGeneratorTool"),
+  "timestamp-converter": () => import("@/islands/TimestampConverterTool"),
 };
 
 const cache = new Map<string, ComponentType>();

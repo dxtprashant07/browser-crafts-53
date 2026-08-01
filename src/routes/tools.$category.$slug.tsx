@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RelatedTools, AdSlot } from "@/components/ToolCard";
 import { ToolIsland } from "@/islands";
 import { track } from "@/lib/analytics";
+import { absUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/tools/$category/$slug")({
   loader: ({ params }) => {
@@ -16,8 +17,10 @@ export const Route = createFileRoute("/tools/$category/$slug")({
   },
   head: ({ params, loaderData }) => {
     const tool = loaderData?.tool;
+    const cat = loaderData?.cat;
     if (!tool)
       return { meta: [{ title: "Tool not found" }, { name: "robots", content: "noindex" }] };
+    const path = `/tools/${params.category}/${params.slug}`;
     return {
       meta: [
         { title: tool.metaTitle },
@@ -25,9 +28,9 @@ export const Route = createFileRoute("/tools/$category/$slug")({
         { property: "og:title", content: tool.metaTitle },
         { property: "og:description", content: tool.metaDescription },
         { property: "og:type", content: "website" },
-        { property: "og:url", content: `/tools/${params.category}/${params.slug}` },
+        { property: "og:url", content: absUrl(path) },
       ],
-      links: [{ rel: "canonical", href: `/tools/${params.category}/${params.slug}` }],
+      links: [{ rel: "canonical", href: absUrl(path) }],
       scripts: [
         {
           type: "application/ld+json",
@@ -51,6 +54,23 @@ export const Route = createFileRoute("/tools/$category/$slug")({
               name: f.q,
               acceptedAnswer: { "@type": "Answer", text: f.a },
             })),
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: absUrl("/") },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: cat?.name,
+                item: absUrl(`/tools/${params.category}`),
+              },
+              { "@type": "ListItem", position: 3, name: tool.name, item: absUrl(path) },
+            ],
           }),
         },
       ],

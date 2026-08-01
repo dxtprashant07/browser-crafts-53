@@ -535,6 +535,164 @@ export const TOOLS: Tool[] = [
     ],
     related: ["text-compare", "word-counter", "json-formatter", "base64-encode-decode"],
   },
+  {
+    slug: "url-encode-decode",
+    name: "URL Encoder / Decoder",
+    category: "developer",
+    shortDesc: "Encode and decode URLs and query strings with percent-encoding.",
+    metaTitle: "URL Encoder & Decoder — Percent-Encode Online",
+    metaDescription:
+      "Encode or decode URLs and query string components with percent-encoding. Switch between component and full-URI encoding. Free and fully in-browser.",
+    h1: "URL Encoder / Decoder",
+    intro:
+      "Paste a URL, query string, or text and convert it to or from percent-encoded form instantly.",
+    howTo: [
+      "Choose Encode or Decode.",
+      "Pick Component for query/path parts, or Full URI for whole URLs.",
+      "Paste your text — the result updates live.",
+    ],
+    faqs: [
+      {
+        q: "What's the difference between Component and Full URI?",
+        a: "Component encoding (encodeURIComponent) escapes every reserved character, ideal for a single query parameter or path segment. Full URI encoding (encodeURI) leaves URL structure characters like : / ? & untouched, for encoding a complete URL.",
+      },
+      {
+        q: "Why does decoding sometimes fail?",
+        a: "Decoding throws an error if the input contains a stray % not followed by a valid two-digit hex code. Check the input was copied in full.",
+      },
+      {
+        q: "Is my data uploaded?",
+        a: "No. Encoding and decoding run entirely in your browser using the native URI functions — nothing is sent anywhere.",
+      },
+    ],
+    related: ["base64-encode-decode", "json-formatter", "jwt-decoder", "hash-generator"],
+  },
+  {
+    slug: "jwt-decoder",
+    name: "JWT Decoder",
+    category: "developer",
+    shortDesc: "Decode a JSON Web Token's header and payload and check its expiry.",
+    metaTitle: "JWT Decoder — Decode JSON Web Tokens Online",
+    metaDescription:
+      "Paste a JWT to decode its header and payload as readable JSON, and see whether it's expired. Free, private, and fully in-browser — no signature verification.",
+    h1: "JWT Decoder",
+    intro:
+      "Paste a JWT to see its decoded header and payload, plus whether it's expired — nothing is verified or sent anywhere.",
+    howTo: [
+      "Paste a JWT (three dot-separated parts).",
+      "View the decoded header and payload as formatted JSON.",
+      "Check the expiry banner to see if the token is still valid.",
+    ],
+    faqs: [
+      {
+        q: "Does this verify the signature?",
+        a: "No. This tool only decodes the header and payload, which are base64url-encoded but not encrypted. Verifying the signature would require the secret or public key, which never leaves your server.",
+      },
+      {
+        q: "Is my token uploaded anywhere?",
+        a: "No. Decoding happens entirely in your browser — the token is never transmitted.",
+      },
+      {
+        q: "Why did decoding fail?",
+        a: "A JWT must have exactly three dot-separated, base64url-encoded parts. Make sure you copied the full token.",
+      },
+    ],
+    related: ["base64-encode-decode", "json-formatter", "url-encode-decode", "hash-generator"],
+  },
+  {
+    slug: "uuid-generator",
+    name: "UUID Generator",
+    category: "generator",
+    shortDesc: "Generate random v4 UUIDs in bulk, with optional formatting.",
+    metaTitle: "UUID Generator — Free Random UUID v4 Generator",
+    metaDescription:
+      "Generate one or many random version 4 UUIDs using cryptographically secure randomness. Toggle hyphens and case, copy individually or all at once.",
+    h1: "UUID Generator",
+    intro: "Generate as many random v4 UUIDs as you need, formatted exactly how you want them.",
+    howTo: [
+      "Set how many UUIDs you want with the slider.",
+      "Toggle hyphens and uppercase to match your format.",
+      "Copy a single UUID or all of them at once.",
+    ],
+    faqs: [
+      {
+        q: "Are these truly random?",
+        a: "Yes. UUIDs are generated with crypto.randomUUID (or crypto.getRandomValues as a fallback), the same secure randomness used for cryptography.",
+      },
+      {
+        q: "What is a v4 UUID?",
+        a: "A 128-bit identifier where all bits except a few fixed version/variant bits are random, making collisions astronomically unlikely.",
+      },
+      {
+        q: "Are the UUIDs stored anywhere?",
+        a: "No. They're generated in memory in your browser and never sent to a server.",
+      },
+    ],
+    related: ["password-generator", "hash-generator", "json-formatter", "qr-code-generator"],
+  },
+  {
+    slug: "hash-generator",
+    name: "Hash Generator",
+    category: "developer",
+    shortDesc: "Compute SHA-1, SHA-256, SHA-384 & SHA-512 hashes of any text.",
+    metaTitle: "Hash Generator — SHA-1, SHA-256, SHA-384, SHA-512 Online",
+    metaDescription:
+      "Generate SHA-1, SHA-256, SHA-384, and SHA-512 hashes of any text instantly using the browser's SubtleCrypto API. Free, private, and fully in-browser.",
+    h1: "Hash Generator",
+    intro: "Type or paste text to see its SHA-1, SHA-256, SHA-384, and SHA-512 hashes update live.",
+    howTo: [
+      "Type or paste the text you want to hash.",
+      "All four hash digests update live below.",
+      "Copy any hash with one click.",
+    ],
+    faqs: [
+      {
+        q: "Which algorithm should I use?",
+        a: "SHA-256 is the most common general-purpose choice today. SHA-1 is considered weak for security purposes but still used for checksums.",
+      },
+      {
+        q: "Why isn't MD5 included?",
+        a: "Browsers' built-in SubtleCrypto API doesn't implement MD5, and it's cryptographically broken — SHA-1 or better is recommended even for non-security checksums.",
+      },
+      {
+        q: "Is my text uploaded?",
+        a: "No. Hashes are computed locally using the browser's SubtleCrypto API — nothing is sent to a server.",
+      },
+    ],
+    related: ["uuid-generator", "base64-encode-decode", "password-generator", "json-formatter"],
+  },
+  {
+    slug: "timestamp-converter",
+    name: "Timestamp Converter",
+    category: "developer",
+    shortDesc: "Convert Unix timestamps to dates and back, in seconds or milliseconds.",
+    metaTitle: "Unix Timestamp Converter — Epoch to Date Online",
+    metaDescription:
+      "Convert a Unix timestamp to a readable local, UTC, and ISO 8601 date, or convert a date back to seconds and milliseconds since the epoch. Free and in-browser.",
+    h1: "Timestamp Converter",
+    intro:
+      "Convert a Unix timestamp to a readable date, or pick a date to get its epoch timestamp — in seconds or milliseconds.",
+    howTo: [
+      "Enter a Unix timestamp, or click Now to use the current time.",
+      "Switch between seconds and milliseconds to match your source.",
+      "Or enter a date below to get its timestamp instead.",
+    ],
+    faqs: [
+      {
+        q: "Seconds or milliseconds — which do I have?",
+        a: "Unix timestamps in seconds are 10 digits today (e.g. 1735000000); JavaScript's Date.now() and many APIs use milliseconds, which are 13 digits.",
+      },
+      {
+        q: "What timezone is shown?",
+        a: "The Local row uses your browser's timezone; the UTC and ISO 8601 rows are timezone-independent.",
+      },
+      {
+        q: "Is my input sent anywhere?",
+        a: "No. Conversion uses the browser's built-in Date object — nothing leaves your device.",
+      },
+    ],
+    related: ["json-formatter", "uuid-generator", "hash-generator", "word-counter"],
+  },
 ];
 
 export function getTool(slug: string): Tool | undefined {

@@ -3,6 +3,7 @@ import { CATEGORIES, getCategory, getToolsByCategory, type Category } from "@/da
 import { SiteChrome } from "@/components/SiteChrome";
 import { ToolCard } from "@/components/ToolCard";
 import { Breadcrumbs, CategoryChip } from "@/components/Breadcrumbs";
+import { absUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/tools/$category/")({
   loader: ({ params }) => {
@@ -14,15 +15,45 @@ export const Route = createFileRoute("/tools/$category/")({
     const cat = loaderData?.category;
     if (!cat)
       return { meta: [{ title: "Category not found" }, { name: "robots", content: "noindex" }] };
+    const path = `/tools/${params.category}`;
+    const tools = getToolsByCategory(cat.id as Category);
     return {
       meta: [
         { title: `${cat.name} Tools — Tools Platform` },
         { name: "description", content: cat.description },
         { property: "og:title", content: `${cat.name} Tools — Tools Platform` },
         { property: "og:description", content: cat.description },
-        { property: "og:url", content: `/tools/${params.category}` },
+        { property: "og:url", content: absUrl(path) },
       ],
-      links: [{ rel: "canonical", href: `/tools/${params.category}` }],
+      links: [{ rel: "canonical", href: absUrl(path) }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: `${cat.name} Tools`,
+            description: cat.description,
+            url: absUrl(path),
+            hasPart: tools.map((t) => ({
+              "@type": "SoftwareApplication",
+              name: t.name,
+              url: absUrl(`/tools/${t.category}/${t.slug}`),
+            })),
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: absUrl("/") },
+              { "@type": "ListItem", position: 2, name: cat.name, item: absUrl(path) },
+            ],
+          }),
+        },
+      ],
     };
   },
   component: CategoryHub,

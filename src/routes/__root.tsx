@@ -86,6 +86,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Tools Platform — Fast, Private Browser Tools" },
+      {
+        name: "twitter:description",
+        content: "Small jobs, done in your browser. No uploads, no accounts, no paywalls.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
