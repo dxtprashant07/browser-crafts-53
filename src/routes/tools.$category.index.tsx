@@ -24,6 +24,7 @@ export const Route = createFileRoute("/tools/$category/")({
         { property: "og:title", content: `${cat.name} Tools — Tools Platform` },
         { property: "og:description", content: cat.description },
         { property: "og:url", content: absUrl(path) },
+        { property: "og:type", content: "website" },
       ],
       links: [{ rel: "canonical", href: absUrl(path) }],
       scripts: [

@@ -99,8 +99,18 @@ async function sendWebResponse(res, response) {
   }
 }
 
+const SECURITY_HEADERS = {
+  "x-content-type-options": "nosniff",
+  "x-frame-options": "SAMEORIGIN",
+  "referrer-policy": "strict-origin-when-cross-origin",
+};
+
 const server = createServer(async (req, res) => {
   try {
+    res.setHeader("x-content-type-options", SECURITY_HEADERS["x-content-type-options"]);
+    res.setHeader("x-frame-options", SECURITY_HEADERS["x-frame-options"]);
+    res.setHeader("referrer-policy", SECURITY_HEADERS["referrer-policy"]);
+
     // Health check for load balancers / platform probes.
     if (req.url === "/healthz") {
       res.writeHead(200, { "content-type": "text/plain" });

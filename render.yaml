@@ -13,3 +13,5 @@ services:
         value: production
       - key: PORT
         value: "3000"
+      - key: VITE_SITE_URL
+        sync: false

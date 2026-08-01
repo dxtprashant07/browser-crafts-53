@@ -13,6 +13,7 @@ export const Route = createFileRoute("/privacy")({
           "How Tools Platform handles your data: it doesn't. Every tool runs in your browser.",
       },
       { property: "og:url", content: absUrl("/privacy") },
+      { property: "og:type", content: "website" },
     ],
     links: [{ rel: "canonical", href: absUrl("/privacy") }],
   }),

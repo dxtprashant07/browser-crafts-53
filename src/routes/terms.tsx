@@ -12,6 +12,7 @@ export const Route = createFileRoute("/terms")({
         content: "Terms of use for Tools Platform's free, browser-based tools.",
       },
       { property: "og:url", content: absUrl("/terms") },
+      { property: "og:type", content: "website" },
     ],
     links: [{ rel: "canonical", href: absUrl("/terms") }],
   }),

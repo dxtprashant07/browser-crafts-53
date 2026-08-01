@@ -4,6 +4,12 @@
 FROM oven/bun:1 AS builder
 WORKDIR /app
 
+# Render (and `docker build --build-arg`) inject this at build time — Vite
+# inlines VITE_* vars into the bundle during `bun run build`, so it must be
+# an ARG here, not just a runtime ENV in the runtime stage below.
+ARG VITE_SITE_URL
+ENV VITE_SITE_URL=$VITE_SITE_URL
+
 # Install deps first for better layer caching.
 COPY package.json bun.lock bunfig.toml ./
 RUN bun install --frozen-lockfile

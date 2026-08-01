@@ -27,7 +27,11 @@ function toWebRequest(req) {
 export default async function (req, res) {
   try {
     const response = await handler.fetch(toWebRequest(req), {}, {});
-    const headers = {};
+    const headers = {
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "referrer-policy": "strict-origin-when-cross-origin",
+    };
     response.headers.forEach((value, key) => {
       headers[key] = value;
     });
