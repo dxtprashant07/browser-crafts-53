@@ -95,6 +95,8 @@ export function DropZone({
         accept={accept}
         multiple={multiple}
         className="visually-hidden"
+        tabIndex={-1}
+        aria-label={hint}
         onChange={(e) => {
           const files = Array.from(e.target.files ?? []);
           if (files.length) onFiles(files);

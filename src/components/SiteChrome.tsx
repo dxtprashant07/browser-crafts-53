@@ -287,9 +287,9 @@ export function SiteChrome({ children }: { children: ReactNode }) {
               const tools = getToolsByCategory(c.id).slice(0, 5);
               return (
                 <div className="footer-col" key={c.id}>
-                  <h4>
+                  <h3>
                     <span aria-hidden>{c.icon}</span> {c.name}
-                  </h4>
+                  </h3>
                   {tools.map((t) => (
                     <Link
                       key={t.slug}
@@ -306,7 +306,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
               );
             })}
             <div className="footer-col">
-              <h4>Site</h4>
+              <h3>Site</h3>
               <a href="/#popular">Popular tools</a>
               <a href="/#why">How it works</a>
               <Link to="/privacy">Privacy</Link>

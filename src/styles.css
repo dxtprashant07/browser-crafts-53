@@ -15,6 +15,9 @@
   --border: #e3ded3;
   --accent: #f5b700;
   --on-accent: #15171b;
+  /* Gold accent fails WCAG AA text contrast on light backgrounds — darken for
+     link/text use; keep --accent as-is for fills/badges where --on-accent applies. */
+  --accent-text: #8a6200;
   --success: #3f6212;
   --success-bg: #f3f7ea;
   --error: #b4322a;
@@ -58,6 +61,7 @@
   --border: rgba(255, 255, 255, 0.12);
   --accent: #ffd23f;
   --on-accent: #15171b;
+  --accent-text: #ffd23f;
   --success: #a3d977;
   --success-bg: #1c2a17;
   --error: #f0857d;
@@ -558,7 +562,7 @@ a {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 24px 28px;
 }
-.footer-col h4 {
+.footer-col h3 {
   color: var(--ink);
   font-family: var(--font-body);
   font-weight: 600;
@@ -580,7 +584,7 @@ a {
 }
 .footer-col .footer-all {
   margin-top: 6px;
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
   font-size: 0.82rem;
 }
@@ -1419,7 +1423,7 @@ input[type="range"] {
 }
 .regex-cheat-item code {
   font-family: var(--font-mono);
-  color: var(--accent);
+  color: var(--accent-text);
   white-space: nowrap;
 }
 .regex-cheat-item span {
@@ -1530,7 +1534,7 @@ input[type="range"] {
   display: none;
 }
 .faq details[open] summary {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .faq p {
   color: var(--muted);
@@ -1638,7 +1642,7 @@ input[type="range"] {
   margin: 0;
 }
 .section-head a {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 600;
   font-size: 0.9rem;
   white-space: nowrap;

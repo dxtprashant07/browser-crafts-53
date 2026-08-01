@@ -103,13 +103,15 @@ const SECURITY_HEADERS = {
   "x-content-type-options": "nosniff",
   "x-frame-options": "SAMEORIGIN",
   "referrer-policy": "strict-origin-when-cross-origin",
+  "cross-origin-opener-policy": "same-origin",
+  "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
 };
 
 const server = createServer(async (req, res) => {
   try {
-    res.setHeader("x-content-type-options", SECURITY_HEADERS["x-content-type-options"]);
-    res.setHeader("x-frame-options", SECURITY_HEADERS["x-frame-options"]);
-    res.setHeader("referrer-policy", SECURITY_HEADERS["referrer-policy"]);
+    for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
+      res.setHeader(key, value);
+    }
 
     // Health check for load balancers / platform probes.
     if (req.url === "/healthz") {

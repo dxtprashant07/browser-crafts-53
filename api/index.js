@@ -26,12 +26,10 @@ function toWebRequest(req) {
 
 export default async function (req, res) {
   try {
+    // Security headers are set centrally in vercel.json (applies to static
+    // assets too, which this function never sees) — not duplicated here.
     const response = await handler.fetch(toWebRequest(req), {}, {});
-    const headers = {
-      "x-content-type-options": "nosniff",
-      "x-frame-options": "SAMEORIGIN",
-      "referrer-policy": "strict-origin-when-cross-origin",
-    };
+    const headers = {};
     response.headers.forEach((value, key) => {
       headers[key] = value;
     });
