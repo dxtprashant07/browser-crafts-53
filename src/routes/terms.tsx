@@ -6,10 +6,10 @@ import { absUrl } from "@/lib/site";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Terms — Tools Platform" },
+      { title: "Terms — Subtrate" },
       {
         name: "description",
-        content: "Terms of use for Tools Platform's free, browser-based tools.",
+        content: "Terms of use for Subtrate's free, browser-based tools.",
       },
       { property: "og:url", content: absUrl("/terms") },
       { property: "og:type", content: "website" },
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/terms")({
         <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Terms" }]} />
         <h1>Terms of use</h1>
         <p>
-          Tools Platform provides free, browser-based utilities on an "as is" basis, without
+          Subtrate provides free, browser-based utilities on an "as is" basis, without
           warranties of any kind.
         </p>
         <h2>Acceptable use</h2>

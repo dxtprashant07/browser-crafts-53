@@ -19,9 +19,9 @@ export const Route = createFileRoute("/tools/$category/")({
     const tools = getToolsByCategory(cat.id as Category);
     return {
       meta: [
-        { title: `${cat.name} Tools — Tools Platform` },
+        { title: `${cat.name} Tools — Subtrate` },
         { name: "description", content: cat.description },
-        { property: "og:title", content: `${cat.name} Tools — Tools Platform` },
+        { property: "og:title", content: `${cat.name} Tools — Subtrate` },
         { property: "og:description", content: cat.description },
         { property: "og:url", content: absUrl(path) },
         { property: "og:type", content: "website" },

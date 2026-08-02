@@ -36,8 +36,9 @@ const NAV: { label: string; href: string }[] = [
   { label: "Tools", href: "/#popular" },
   { label: "Categories", href: "/#categories" },
   { label: "How It Works", href: "/#why" },
-  { label: "About", href: "/privacy" },
-  { label: "Roadmap", href: "/#categories" },
+  { label: "About", href: "/about" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Roadmap", href: "/#roadmap" },
 ];
 
 function BrandMark() {
@@ -182,12 +183,12 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     <>
       <header className="site-header" data-scrolled={scrolled || undefined}>
         <div className="container bar">
-          <Link to="/" className="brand" aria-label="Tools Platform home">
+          <Link to="/" className="brand" aria-label="Subtrate home">
             <span className="brand-mark">
               <BrandMark />
             </span>
             <span className="brand-text">
-              <span className="brand-title">Tools Platform</span>
+              <span className="brand-title">Subtrate</span>
               <span className="brand-sub">One Platform. Many Tools.</span>
             </span>
           </Link>
@@ -275,12 +276,12 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         </div>
         <div className="container footer-grid">
           <div className="footer-brand">
-            <Link to="/" className="brand" aria-label="Tools Platform home">
+            <Link to="/" className="brand" aria-label="Subtrate home">
               <span className="brand-mark">
                 <BrandMark />
               </span>
               <span className="brand-text">
-                <span className="brand-title">Tools Platform</span>
+                <span className="brand-title">Subtrate</span>
                 <span className="brand-sub">One Platform. Many Tools.</span>
               </span>
             </Link>
@@ -344,7 +345,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         </div>
 
         <div className="container footer-bottom">
-          <span>© {new Date().getFullYear()} Tools Platform. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Subtrate. All rights reserved.</span>
           <span className="footer-bottom-note">
             <span aria-hidden>🔒</span> Runs entirely in your browser
           </span>

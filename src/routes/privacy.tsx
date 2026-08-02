@@ -6,11 +6,10 @@ import { absUrl } from "@/lib/site";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy — Tools Platform" },
+      { title: "Privacy — Subtrate" },
       {
         name: "description",
-        content:
-          "How Tools Platform handles your data: it doesn't. Every tool runs in your browser.",
+        content: "How Subtrate handles your data: it doesn't. Every tool runs in your browser.",
       },
       { property: "og:url", content: absUrl("/privacy") },
       { property: "og:type", content: "website" },
@@ -23,7 +22,7 @@ export const Route = createFileRoute("/privacy")({
         <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Privacy" }]} />
         <h1>Privacy</h1>
         <p>
-          Tools Platform is built to be private by design. Every tool runs entirely in your browser
+          Subtrate is built to be private by design. Every tool runs entirely in your browser
           using client-side JavaScript.
         </p>
         <h2>Your files stay on your device</h2>

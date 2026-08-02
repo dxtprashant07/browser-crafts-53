@@ -18,6 +18,29 @@ const HERO_CHIPS: { label: string; slug: string; category: string }[] = [
   { label: "password", slug: "password-generator", category: "generator" },
 ];
 
+const ROADMAP_ITEMS: { title: string; desc: string; status: "in-progress" | "planned" }[] = [
+  {
+    title: "Unit converters",
+    desc: "Length, weight, temperature, and data-size conversions — same client-side approach.",
+    status: "in-progress",
+  },
+  {
+    title: "Image-to-PDF & PDF-to-image",
+    desc: "Turn photos into a PDF, or pull pages back out as images.",
+    status: "planned",
+  },
+  {
+    title: "CSV ⇄ JSON converter",
+    desc: "Convert between CSV and JSON with column mapping, no upload.",
+    status: "planned",
+  },
+  {
+    title: "Color picker & palette generator",
+    desc: "Pick colors from an image or generate a palette, export as CSS/JSON.",
+    status: "planned",
+  },
+];
+
 const CAT_DISPLAY: Record<string, string> = {
   image: "Image tools",
   pdf: "PDF tools",
@@ -36,7 +59,7 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Tools Platform",
+          name: "Subtrate",
           url: absUrl("/"),
           description: "Fast, private browser tools for images, PDFs, text, and code.",
         }),
@@ -46,7 +69,7 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "Tools Platform",
+          name: "Subtrate",
           url: absUrl("/"),
           logo: absUrl("/og-image.png"),
         }),
@@ -228,6 +251,26 @@ function Index() {
             </ul>
           </div>
         </div>
+      </section>
+
+      <section className="container section" id="roadmap">
+        <div className="section-head">
+          <h2>Roadmap</h2>
+          <span style={{ color: "var(--muted)", fontSize: "0.85rem" }}>What's next, in order</span>
+        </div>
+        <ul className="roadmap-list">
+          {ROADMAP_ITEMS.map((item) => (
+            <li key={item.title} className={`roadmap-item roadmap-${item.status}`}>
+              <span className="roadmap-status">
+                {item.status === "in-progress" ? "In progress" : "Planned"}
+              </span>
+              <div>
+                <strong>{item.title}</strong>
+                <span>{item.desc}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
     </SiteChrome>
   );

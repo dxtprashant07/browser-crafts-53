@@ -74,15 +74,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Tools Platform — Fast, Private Browser Tools" },
+      { title: "Subtrate — Fast, Private Browser Tools" },
       {
         name: "description",
         content:
           "Free browser tools for images, PDFs, text, and code. Nothing is uploaded — every tool runs entirely on your device.",
       },
-      { name: "author", content: "Tools Platform" },
-      { property: "og:site_name", content: "Tools Platform" },
-      { property: "og:title", content: "Tools Platform — Fast, Private Browser Tools" },
+      { name: "author", content: "Subtrate" },
+      { property: "og:site_name", content: "Subtrate" },
+      { property: "og:title", content: "Subtrate — Fast, Private Browser Tools" },
       {
         property: "og:description",
         content: "Small jobs, done in your browser. No uploads, no accounts, no paywalls.",
@@ -93,10 +93,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image:height", content: "630" },
       {
         property: "og:image:alt",
-        content: "Tools Platform — 20 free browser tools, nothing uploaded",
+        content: "Subtrate — 20 free browser tools, nothing uploaded",
       },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Tools Platform — Fast, Private Browser Tools" },
+      { name: "twitter:title", content: "Subtrate — Fast, Private Browser Tools" },
       {
         name: "twitter:description",
         content: "Small jobs, done in your browser. No uploads, no accounts, no paywalls.",

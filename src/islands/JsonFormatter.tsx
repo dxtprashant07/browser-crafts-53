@@ -4,7 +4,7 @@ import { downloadBlob } from "@/lib/format";
 import { track } from "@/lib/analytics";
 
 const EXAMPLE = `{
-  "product": "Tools Platform",
+  "product": "Subtrate",
   "version": 2,
   "features": ["json", "diff", "images"],
   "pricing": { "plan": "free", "limits": null },

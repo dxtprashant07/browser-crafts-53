@@ -17,7 +17,7 @@ export const Route = createFileRoute("/llms.txt")({
           return `## ${cat.name}\n${items}`;
         }).join("\n\n");
 
-        const body = `# Tools Platform
+        const body = `# Subtrate
 
 > Free, private browser tools for images, PDFs, text, and code. Every tool runs
 > 100% client-side — files and text are never uploaded to a server.
