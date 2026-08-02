@@ -14,10 +14,11 @@ export const Route = createFileRoute("/sitemap.xml")({
           ...CATEGORIES.map((c) => `/tools/${c.id}`),
           ...TOOLS.map((t) => `/tools/${t.category}/${t.slug}`),
         ];
+        const lastmod = new Date().toISOString().slice(0, 10);
         const urls = paths
           .map(
             (p) =>
-              `  <url>\n    <loc>${BASE_URL}${p}</loc>\n    <changefreq>weekly</changefreq>\n  </url>`,
+              `  <url>\n    <loc>${BASE_URL}${p}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>weekly</changefreq>\n  </url>`,
           )
           .join("\n");
         const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`;

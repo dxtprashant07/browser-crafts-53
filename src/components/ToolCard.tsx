@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 import { type Tool, getTool } from "@/data/registry";
 import { CategoryChip } from "@/components/Breadcrumbs";
 import { track } from "@/lib/analytics";
+import { ADSENSE_CLIENT, ADSENSE_SLOT_TOOL } from "@/lib/ads";
 
 export function ToolCard({ tool, onRelated }: { tool: Tool; onRelated?: boolean }) {
   return (
@@ -39,9 +41,53 @@ export function RelatedTools({ slugs }: { slugs: string[] }) {
 }
 
 export function AdSlot({ label = "Advertisement" }: { label?: string }) {
+  const insRef = useRef<HTMLModElement>(null);
+
+  useEffect(() => {
+    if (!ADSENSE_CLIENT || !ADSENSE_SLOT_TOOL) return;
+    try {
+      // @ts-expect-error injected by the AdSense loader script
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch {
+      // AdSense script blocked (adblock) or not loaded yet — leave the empty <ins>.
+    }
+  }, []);
+
+  if (!ADSENSE_CLIENT || !ADSENSE_SLOT_TOOL) {
+    return (
+      <div className="ad-slot" role="complementary" aria-label="Advertisement">
+        {label}
+      </div>
+    );
+  }
+
   return (
-    <div className="ad-slot" role="complementary" aria-label="Advertisement">
+    <ins
+      ref={insRef}
+      className="adsbygoogle ad-slot"
+      style={{ display: "block" }}
+      data-ad-client={ADSENSE_CLIENT}
+      data-ad-slot={ADSENSE_SLOT_TOOL}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+      role="complementary"
+      aria-label="Advertisement"
+    />
+  );
+}
+
+// Drop-in affiliate mention, e.g. <AffiliateLink href="..." label="Need more storage? Try X" />
+// near a relevant tool. rel="sponsored" tells search engines it's a paid link.
+export function AffiliateLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="sponsored noopener noreferrer"
+      className="ad-slot"
+      style={{ textTransform: "none", letterSpacing: "normal", fontSize: "0.85rem" }}
+    >
       {label}
-    </div>
+    </a>
   );
 }

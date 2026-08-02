@@ -3,6 +3,31 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useTheme } from "@/lib/theme";
 import { useCommandPalette } from "@/components/CommandPalette";
 import { CATEGORIES, getToolsByCategory, categoryCount } from "@/data/registry";
+import { ETHICALADS_PUBLISHER } from "@/lib/ads";
+
+// Renders EthicalAds' text-ad slot. The library script (loaded once, see
+// below) scans the DOM for this data-ea-publisher div and fills it in.
+function EthicalAd() {
+  useEffect(() => {
+    if (!ETHICALADS_PUBLISHER) return;
+    if (document.getElementById("ethicalads-script")) return;
+    const script = document.createElement("script");
+    script.id = "ethicalads-script";
+    script.async = true;
+    script.src = "https://media.ethicalads.io/media/client/ethicalads.min.js";
+    document.body.appendChild(script);
+  }, []);
+
+  if (!ETHICALADS_PUBLISHER) return null;
+  return (
+    <div
+      className="ad-slot"
+      data-ea-publisher={ETHICALADS_PUBLISHER}
+      data-ea-type="text"
+      aria-label="Advertisement"
+    />
+  );
+}
 
 const CommandPalette = lazy(() => import("@/components/CommandPalette"));
 
@@ -245,6 +270,9 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <main id="main">{children}</main>
 
       <footer className="site-footer">
+        <div className="container">
+          <EthicalAd />
+        </div>
         <div className="container footer-grid">
           <div className="footer-brand">
             <Link to="/" className="brand" aria-label="Tools Platform home">

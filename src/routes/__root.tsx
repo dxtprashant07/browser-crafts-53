@@ -22,6 +22,7 @@ import appCss from "../styles.css?url";
 import { themeInitScript } from "../lib/theme";
 import { SiteChrome } from "../components/SiteChrome";
 import { absUrl } from "../lib/site";
+import { ADSENSE_CLIENT } from "../lib/ads";
 
 function NotFoundComponent() {
   return (
@@ -106,6 +107,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
+    scripts: ADSENSE_CLIENT
+      ? [
+          {
+            src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`,
+            async: true,
+            crossOrigin: "anonymous",
+          },
+        ]
+      : [],
   }),
   shellComponent: RootShell,
   component: RootComponent,

@@ -48,6 +48,7 @@ export const Route = createFileRoute("/")({
           "@type": "Organization",
           name: "Tools Platform",
           url: absUrl("/"),
+          logo: absUrl("/og-image.png"),
         }),
       },
     ],
@@ -62,6 +63,13 @@ function Index() {
 
   return (
     <SiteChrome>
+      <div className="free-banner" role="note">
+        <span className="free-banner-badge">✨ No limits</span>
+        <span>
+          Unlimited tool use, forever free — no sign-up, no quota, no catch. Hit{" "}
+          <kbd>Ctrl</kbd>+<kbd>D</kbd> to bookmark this page so you don't lose it.
+        </span>
+      </div>
       <section className="hero">
         <div className="hero-glow" aria-hidden />
         <div className="container hero-inner">
