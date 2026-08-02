@@ -23,16 +23,16 @@ export const Route = createFileRoute("/about")({
         <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "About" }]} />
         <h1>About Subtrate</h1>
         <p>
-          Subtrate is {TOOLS.length} small, free tools — image, PDF, text, developer, and
-          generator utilities — that all run entirely in your browser. No file or text you touch
-          here is ever uploaded to a server.
+          Subtrate is {TOOLS.length} small, free tools — image, PDF, text, developer, and generator
+          utilities — that all run entirely in your browser. No file or text you touch here is ever
+          uploaded to a server.
         </p>
         <h2>Why client-side only</h2>
         <p>
           Most "free online tools" quietly upload your file to do the work, then delete it (or
           don't). Subtrate does the processing with your browser's own JavaScript, canvas, and
-          WebAssembly APIs — the file never leaves your device, so there's nothing to trust us
-          with in the first place.
+          WebAssembly APIs — the file never leaves your device, so there's nothing to trust us with
+          in the first place.
         </p>
         <h2>What we won't do</h2>
         <p>

@@ -22,8 +22,8 @@ export const Route = createFileRoute("/privacy")({
         <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Privacy" }]} />
         <h1>Privacy</h1>
         <p>
-          Subtrate is built to be private by design. Every tool runs entirely in your browser
-          using client-side JavaScript.
+          Subtrate is built to be private by design. Every tool runs entirely in your browser using
+          client-side JavaScript.
         </p>
         <h2>Your files stay on your device</h2>
         <p>

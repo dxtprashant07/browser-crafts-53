@@ -22,8 +22,8 @@ export const Route = createFileRoute("/terms")({
         <Breadcrumbs items={[{ label: "Home", to: "/" }, { label: "Terms" }]} />
         <h1>Terms of use</h1>
         <p>
-          Subtrate provides free, browser-based utilities on an "as is" basis, without
-          warranties of any kind.
+          Subtrate provides free, browser-based utilities on an "as is" basis, without warranties of
+          any kind.
         </p>
         <h2>Acceptable use</h2>
         <p>

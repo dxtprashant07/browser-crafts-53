@@ -148,9 +148,9 @@ function ToolPage() {
       <section aria-labelledby="about-heading" style={{ marginTop: 40 }}>
         <h2 id="about-heading">About this tool</h2>
         <p className="prose">
-          {tool.name} is a free, browser-based tool from Subtrate. It runs entirely on your
-          device — your data is never uploaded to a server, so it stays completely private. There
-          are no accounts, no watermarks, and no limits. {tool.intro}
+          {tool.name} is a free, browser-based tool from Subtrate. It runs entirely on your device —
+          your data is never uploaded to a server, so it stays completely private. There are no
+          accounts, no watermarks, and no limits. {tool.intro}
         </p>
       </section>
     </>
