@@ -16,7 +16,9 @@ const PRESETS = [
 
 const FRAME_W = 280;
 const KB_PRESETS = [10, 20, 50, 100, 200] as const;
-const QUALITY_STEPS = [0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2];
+const QUALITY_STEPS = [
+  0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2,
+];
 
 function mmToPx(mm: number): number {
   return Math.round((mm / 25.4) * DPI);
@@ -85,7 +87,6 @@ export default function PassportPhotoTool() {
       x: Math.max(-overflowX, Math.min(overflowX, p.x)),
       y: Math.max(-overflowY, Math.min(overflowY, p.y)),
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [overflowX, overflowY]);
 
   useEffect(() => {
@@ -209,7 +210,11 @@ export default function PassportPhotoTool() {
   return (
     <ToolShell>
       {!file && (
-        <DropZone accept="image/*" onFiles={onFiles} hint="A clear, front-facing photo — JPG, PNG or WEBP" />
+        <DropZone
+          accept="image/*"
+          onFiles={onFiles}
+          hint="A clear, front-facing photo — JPG, PNG or WEBP"
+        />
       )}
       {file && img && (
         <>
@@ -378,7 +383,9 @@ export default function PassportPhotoTool() {
 
           {downloadInfo && (
             <div style={{ marginTop: 12 }}>
-              <div className={`notice ${downloadInfo.hitTarget ? "notice-success" : "notice-error"}`}>
+              <div
+                className={`notice ${downloadInfo.hitTarget ? "notice-success" : "notice-error"}`}
+              >
                 <span aria-hidden>{downloadInfo.hitTarget ? "✅" : "⚠️"}</span>
                 <span>
                   {downloadInfo.hitTarget
