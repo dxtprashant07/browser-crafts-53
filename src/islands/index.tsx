@@ -22,6 +22,7 @@ const MAP: Record<string, () => Promise<{ default: ComponentType }>> = {
   "uuid-generator": () => import("@/islands/UuidGeneratorTool"),
   "hash-generator": () => import("@/islands/HashGeneratorTool"),
   "timestamp-converter": () => import("@/islands/TimestampConverterTool"),
+  "passport-photo": () => import("@/islands/PassportPhotoTool"),
 };
 
 const cache = new Map<string, ComponentType>();

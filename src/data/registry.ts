@@ -693,6 +693,47 @@ export const TOOLS: Tool[] = [
     ],
     related: ["json-formatter", "uuid-generator", "hash-generator", "word-counter"],
   },
+  {
+    slug: "passport-photo",
+    name: "Passport Photo Maker",
+    category: "image",
+    shortDesc: "Crop any photo to the exact passport/visa size for your country and print a sheet.",
+    metaTitle: "Passport Photo Maker — Correct Size for Any Country",
+    metaDescription:
+      "Crop a photo to the exact passport or visa photo size — US/India 2x2in, UK/EU 35x45mm, Canada, China, or a custom size. Download a single photo or a 4x6 print sheet. Free and fully in-browser.",
+    h1: "Passport Photo Maker",
+    intro:
+      "Upload a photo, pick your country's size, drag to frame your face, and download a print-ready passport photo — sized to fit any form's file-size limit too.",
+    howTo: [
+      "Upload a clear, front-facing photo.",
+      "Pick your country's size (or enter a custom size in mm) and drag/zoom to frame your face.",
+      "If your form caps the upload size (e.g. 20 KB, 50 KB), pick a max size — the tool compresses to fit — then download the single photo or a 4×6 in print sheet.",
+    ],
+    faqs: [
+      {
+        q: "Which size should I pick?",
+        a: "Most passport photos are either 2×2 in (US, India) or 35×45 mm (UK, Ireland, Schengen/EU, Australia). Check your country's passport office if you're unsure — you can also enter any exact size with Custom.",
+      },
+      {
+        q: "Why does my form reject the photo for being too big or too small?",
+        a: "Many online forms (passport, visa, exam applications) cap the upload at a specific file size in KB, separate from the pixel dimensions. Pick a max size like 20 KB or 50 KB below the download button, and the tool lowers JPEG quality just enough to fit — the pixel dimensions stay correct.",
+      },
+      {
+        q: "Does this remove the background?",
+        a: "No. This tool only crops and resizes — take the photo against a plain, light background for the best result, since background removal isn't done automatically.",
+      },
+      {
+        q: "What is the 4×6 in print sheet?",
+        a: "It tiles multiple copies of your cropped photo onto one standard 4×6 in photo print, sized so a photo lab or home printer can print it at actual size and you cut out each copy.",
+      },
+      {
+        q: "Is my photo uploaded anywhere?",
+        a: "No. Cropping and the print sheet are generated entirely on your device using canvas — your photo is never sent to a server.",
+      },
+    ],
+    related: ["resize-image", "compress-image", "convert-image-format", "qr-code-generator"],
+    popular: true,
+  },
 ];
 
 export function getTool(slug: string): Tool | undefined {
