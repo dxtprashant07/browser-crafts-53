@@ -23,6 +23,8 @@ const MAP: Record<string, () => Promise<{ default: ComponentType }>> = {
   "hash-generator": () => import("@/islands/HashGeneratorTool"),
   "timestamp-converter": () => import("@/islands/TimestampConverterTool"),
   "passport-photo": () => import("@/islands/PassportPhotoTool"),
+  "ai-image-metadata": () => import("@/islands/AiImageMetadataTool"),
+  "watermark-remover": () => import("@/islands/WatermarkRemover"),
 };
 
 const cache = new Map<string, ComponentType>();

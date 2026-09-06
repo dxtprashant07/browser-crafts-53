@@ -35,6 +35,7 @@ const CAT_DISPLAY: Record<string, string> = {
   text: "Text tools",
   developer: "Developer tools",
   generator: "Generators",
+  ai: "AI tools",
 };
 
 export const Route = createFileRoute("/")({

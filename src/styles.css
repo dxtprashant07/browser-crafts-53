@@ -34,6 +34,8 @@
   --cat-developer-fg: #1d4ed8;
   --cat-generator-bg: #fdf3da;
   --cat-generator-fg: #9a7207;
+  --cat-ai-bg: #e2f5f2;
+  --cat-ai-fg: #0f766e;
 
   /* Radius scale — 4 steps + 50% for circles. Nothing else. */
   --radius-sm: 4px;
@@ -87,6 +89,8 @@
   --cat-developer-fg: #8fb2f5;
   --cat-generator-bg: #2c2513;
   --cat-generator-fg: #e6c469;
+  --cat-ai-bg: #12302c;
+  --cat-ai-fg: #5eead4;
 
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-pop: 0 6px 20px rgba(0, 0, 0, 0.5);

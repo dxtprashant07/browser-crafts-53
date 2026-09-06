@@ -1,4 +1,4 @@
-export type Category = "image" | "pdf" | "text" | "developer" | "generator";
+export type Category = "image" | "pdf" | "text" | "developer" | "generator" | "ai";
 
 export interface Tool {
   slug: string;
@@ -52,6 +52,12 @@ export const CATEGORIES: CategoryMeta[] = [
     name: "Generator",
     icon: "✨",
     description: "Generate QR codes and strong passwords on the spot.",
+  },
+  {
+    id: "ai",
+    name: "AI",
+    icon: "🤖",
+    description: "Inspect AI-generated images and strip their hidden metadata — never uploaded.",
   },
 ];
 
@@ -733,6 +739,93 @@ export const TOOLS: Tool[] = [
       },
     ],
     related: ["resize-image", "compress-image", "convert-image-format", "qr-code-generator"],
+    popular: true,
+  },
+  {
+    slug: "watermark-remover",
+    name: "Watermark Remover",
+    category: "image",
+    shortDesc: "Paint over a watermark or unwanted object and rebuild what was behind it.",
+    metaTitle: "Watermark Remover — Erase Watermarks & Objects Online",
+    metaDescription:
+      "Brush over a watermark, logo, date stamp, or unwanted object and the tool repaints the area from the pixels around it. No sign-up, no upload, no watermark of its own.",
+    h1: "Watermark Remover",
+    intro:
+      "Paint over the watermark you want gone and the area is rebuilt from the pixels around it — all on your device, with no upload and no account.",
+    howTo: [
+      "Drop or select the image you want to clean.",
+      "Set a brush size and paint over the watermark — cover it fully, plus a pixel or two of its edge.",
+      "Click Remove painted area, then download — or paint over any leftovers and run it again.",
+    ],
+    faqs: [
+      {
+        q: "How does the removal actually work?",
+        a: "It runs Telea inpainting — the same fast-marching algorithm OpenCV uses. The painted area is erased, then refilled pixel by pixel, working inward from the edge of your brush stroke and following the direction of the surrounding lines and colours so edges continue into the gap instead of blurring across it.",
+      },
+      {
+        q: "What kind of watermarks does it handle well?",
+        a: "Thin marks over reasonably even backgrounds — logo text, captions, date stamps, small objects on sky, skin, walls, or water. It reconstructs structure, not texture, so a large brush over busy detail such as foliage or a crowd comes back noticeably smooth. Painting in several small passes beats one big one.",
+      },
+      {
+        q: "Is it legal to remove a watermark?",
+        a: "On your own images, or ones you have the rights to edit, yes — removing your own logo, a client's stamp, or a stray object is ordinary editing. Removing another party's watermark to reuse their work is copyright infringement in most countries, and in the US also risks a claim under the DMCA's copyright-management-information rules. That call is yours to make.",
+      },
+      {
+        q: "Can it remove invisible AI watermarks like SynthID?",
+        a: "No. Those are encoded across the whole image rather than in one spot, and only the vendor's detector can read them. This tool works on marks you can see and paint over. For the metadata a generator writes into the file, use the AI Image Metadata Cleaner.",
+      },
+      {
+        q: "Is my image uploaded anywhere?",
+        a: "No. The image is decoded, repainted, and re-encoded inside your browser — the work runs in a background thread on your own device, and the file never leaves it.",
+      },
+    ],
+    related: ["ai-image-metadata", "compress-image", "resize-image", "convert-image-format"],
+    popular: true,
+  },
+  {
+    slug: "ai-image-metadata",
+    name: "AI Image Metadata Cleaner",
+    category: "ai",
+    shortDesc:
+      "Detect which AI made an image and strip its footprint — batch, lossless, never uploaded.",
+    metaTitle: "Delete AI Footprints — Image Metadata Remover & Model Detector",
+    metaDescription:
+      "Find out which AI generated an image — Midjourney, DALL·E, Stable Diffusion, ComfyUI, Firefly, Gemini — then delete the prompt, EXIF, XMP, IPTC, and C2PA footprints without re-encoding. Batch, unlimited size, and never uploaded to any server.",
+    h1: "AI Image Metadata Cleaner",
+    intro:
+      "Drop AI-generated PNGs, JPGs, or WebPs to see the prompt, model, and Content Credentials hidden inside — then download clean copies with every trace removed. Nothing is uploaded, so there is no file to delete later.",
+    howTo: [
+      "Drop or select any number of PNG, JPG, or WebP images — there is no file-size cap.",
+      "Read the detected generator per file and expand each metadata block to see exactly what it stores.",
+      "Download a clean copy, or all of them as a ZIP — the pixels are untouched, only the footprint is gone.",
+    ],
+    faqs: [
+      {
+        q: "How does it know which AI generated the image?",
+        a: "Generators write their fingerprint into the file: Stable Diffusion WebUI and ComfyUI store the full prompt and model name in PNG text chunks, NovelAI and InvokeAI tag themselves by name, and Firefly, DALL·E, and Google's models attach C2PA Content Credentials. The tool reads those blocks and matches them against known signatures.",
+      },
+      {
+        q: "If nothing is detected, does that mean it isn't AI?",
+        a: "No. Metadata is trivially removed, and screenshots, re-saves, and most social platforms strip it automatically. A clean result means there is no signature left in the file — not that the image is real. Invisible pixel watermarks like Google's SynthID cannot be read without the vendor's detector.",
+      },
+      {
+        q: "Does removing metadata hurt image quality?",
+        a: "Not at all. The file is rebuilt by copying the original image data byte for byte and dropping only the metadata blocks — there is no re-encoding, so the pixels are bit-identical to the original.",
+      },
+      {
+        q: "What exactly gets removed?",
+        a: "PNG text chunks (tEXt, zTXt, iTXt), EXIF, XMP, IPTC, timestamps, and C2PA Content Credentials. Colour-critical data — ICC profiles, the Adobe colour-transform marker, palettes, and animation frames — is deliberately kept so the image still displays correctly.",
+      },
+      {
+        q: "Is my image uploaded anywhere?",
+        a: "No — and that's the point. Other footprint removers upload your file to a server and promise to delete it later, usually within some number of minutes. This tool parses and rebuilds the file inside your browser, so there is no upload, no queue, no retention window, and no file-size cap. Your prompt never reaches anyone.",
+      },
+      {
+        q: "Can I clean several images at once?",
+        a: "Yes. Drop as many PNG, JPG, and WebP files as you like — each one is scanned separately, and you can download them individually or all at once as a ZIP.",
+      },
+    ],
+    related: ["watermark-remover", "compress-image", "convert-image-format", "resize-image"],
     popular: true,
   },
 ];

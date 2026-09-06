@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Image, FileText, Type, Code2, LayoutGrid, type LucideIcon } from "lucide-react";
+import { Image, FileText, Type, Code2, LayoutGrid, Sparkles, type LucideIcon } from "lucide-react";
 import { type Category } from "@/data/registry";
 
 export function Breadcrumbs({
@@ -41,6 +41,7 @@ export const CATEGORY_CHIP_CLASS: Record<Category, { bg: string; fg: string }> =
   text: { bg: "var(--cat-text-bg)", fg: "var(--cat-text-fg)" },
   developer: { bg: "var(--cat-developer-bg)", fg: "var(--cat-developer-fg)" },
   generator: { bg: "var(--cat-generator-bg)", fg: "var(--cat-generator-fg)" },
+  ai: { bg: "var(--cat-ai-bg)", fg: "var(--cat-ai-fg)" },
 };
 
 const CATEGORY_ICON: Record<Category, LucideIcon> = {
@@ -49,6 +50,7 @@ const CATEGORY_ICON: Record<Category, LucideIcon> = {
   text: Type,
   developer: Code2,
   generator: LayoutGrid,
+  ai: Sparkles,
 };
 
 export function CategoryChip({ category }: { category: Category }) {

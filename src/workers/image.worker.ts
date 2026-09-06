@@ -9,15 +9,18 @@ import encodeJpeg from "@jsquash/jpeg/encode";
 import encodeWebp from "@jsquash/webp/encode";
 import optimisePng from "@jsquash/oxipng/optimise";
 import resizeImageData from "@jsquash/resize";
+import { inpaint } from "@/lib/inpaint";
 
 export interface ImageJob {
   id: number;
-  op: "compress" | "resize" | "convert";
+  op: "compress" | "resize" | "convert" | "inpaint";
   bitmap: ImageBitmap;
   type: string; // output mime
   quality?: number; // 0..100
   width?: number;
   height?: number;
+  mask?: Uint8Array; // inpaint: one byte per pixel, non-zero = repaint
+  radius?: number; // inpaint: how far to look for known colour
 }
 
 export interface ImageResult {
@@ -65,6 +68,10 @@ self.onmessage = async (e: MessageEvent<ImageJob>) => {
     job.bitmap.close();
     let w = imageData.width;
     let h = imageData.height;
+
+    if (job.op === "inpaint" && job.mask) {
+      imageData = inpaint(imageData, job.mask, job.radius ?? 5);
+    }
 
     if (job.width && job.height) {
       imageData = await resizeImageData(imageData, {
