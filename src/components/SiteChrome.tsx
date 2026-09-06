@@ -206,24 +206,28 @@ export function SiteChrome({ children }: { children: ReactNode }) {
           </nav>
 
           <div className="header-right">
-            <button
-              className="header-search"
-              onClick={() => setOpen(true)}
-              aria-label="Search tools"
-            >
-              <SearchIcon />
-              <span className="lbl" aria-hidden>
-                {typed ? (
-                  <>
-                    Try “<span className="typed">{typed}</span>
-                    <span className="caret" />”
-                  </>
-                ) : (
-                  "Search tools…"
-                )}
-              </span>
-              <kbd className="k">⌘K</kbd>
-            </button>
+            {/* The homepage already leads with the big hero search; a second
+                trigger in the header is just noise there. */}
+            {pathname !== "/" && (
+              <button
+                className="header-search"
+                onClick={() => setOpen(true)}
+                aria-label="Search tools"
+              >
+                <SearchIcon />
+                <span className="lbl" aria-hidden>
+                  {typed ? (
+                    <>
+                      Try “<span className="typed">{typed}</span>
+                      <span className="caret" />”
+                    </>
+                  ) : (
+                    "Search tools…"
+                  )}
+                </span>
+                <kbd className="k">⌘K</kbd>
+              </button>
+            )}
             <ThemeToggle />
             <button
               className="btn btn-primary btn-sm get-started-btn"

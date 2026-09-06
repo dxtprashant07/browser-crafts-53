@@ -83,7 +83,7 @@ function CategoryHub() {
           <h1 style={{ margin: 0 }}>{category.name} Tools</h1>
         </div>
         <p className="prose">{category.description}</p>
-        <p className="mono" style={{ color: "var(--muted)", fontSize: "0.85rem" }}>
+        <p className="mono" style={{ color: "var(--muted)", fontSize: "var(--fs-md)" }}>
           {tools.length} tools
         </p>
 

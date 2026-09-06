@@ -77,7 +77,7 @@ export default function CompressPdf() {
               </span>
             </div>
             {result.imagesRecompressed === 0 && (
-              <p style={{ marginTop: 10, fontSize: "0.85rem", color: "var(--muted)" }}>
+              <p style={{ marginTop: 10, fontSize: "var(--fs-md)", color: "var(--muted)" }}>
                 No compressible images found in this PDF — its size mostly comes from text, fonts,
                 or vector content, which we don't touch to avoid altering how the document looks.
               </p>

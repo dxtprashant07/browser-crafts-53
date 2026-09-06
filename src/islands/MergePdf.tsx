@@ -96,7 +96,7 @@ export default function MergePdf() {
                 gap: 8,
                 padding: "8px 10px",
                 border: "1px solid var(--border)",
-                borderRadius: 9,
+                borderRadius: "var(--radius-btn)",
                 marginBottom: 8,
               }}
             >
@@ -115,7 +115,7 @@ export default function MergePdf() {
               </span>
               <span
                 className="mono"
-                style={{ color: "var(--muted)", fontSize: "0.78rem", whiteSpace: "nowrap" }}
+                style={{ color: "var(--muted)", fontSize: "var(--fs-sm)", whiteSpace: "nowrap" }}
               >
                 {formatBytes(f.size)}
               </span>

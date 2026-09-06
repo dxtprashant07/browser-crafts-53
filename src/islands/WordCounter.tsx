@@ -218,7 +218,7 @@ export default function WordCounter() {
         <div className="card">
           <h3>Keyword density</h3>
           {density.length === 0 && (
-            <p style={{ color: "var(--muted)", margin: 0, fontSize: "0.9rem" }}>
+            <p style={{ color: "var(--muted)", margin: 0, fontSize: "var(--fs-md)" }}>
               Start typing to see your top words.
             </p>
           )}
@@ -250,7 +250,7 @@ export default function WordCounter() {
               margin: "12px 0 6px",
               display: "flex",
               justifyContent: "space-between",
-              fontSize: "0.85rem",
+              fontSize: "var(--fs-md)",
             }}
           >
             <span style={{ color: "var(--muted)" }}>

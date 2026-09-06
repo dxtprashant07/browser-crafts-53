@@ -1,22 +1,10 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { CATEGORIES, TOOLS, getPopularTools, categoryCount } from "@/data/registry";
 import { absUrl } from "@/lib/site";
 import { SiteChrome } from "@/components/SiteChrome";
 import { ToolCard } from "@/components/ToolCard";
 import { useCommandPalette } from "@/components/CommandPalette";
 import { CategoryChip } from "@/components/Breadcrumbs";
-import { lazy, Suspense } from "react";
-import { ClientOnly } from "@tanstack/react-router";
-
-const ImageCompressor = lazy(() => import("@/islands/ImageCompressor"));
-
-const HERO_CHIPS: { label: string; slug: string; category: string }[] = [
-  { label: "compress image", slug: "compress-image", category: "image" },
-  { label: "merge pdf", slug: "merge-pdf", category: "pdf" },
-  { label: "qr code", slug: "qr-code-generator", category: "generator" },
-  { label: "json", slug: "json-formatter", category: "developer" },
-  { label: "password", slug: "password-generator", category: "generator" },
-];
 
 const ROADMAP_ITEMS: { title: string; desc: string; status: "in-progress" | "planned" }[] = [
   {
@@ -81,18 +69,10 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const popular = getPopularTools();
-  const navigate = useNavigate();
   const { setOpen } = useCommandPalette();
 
   return (
     <SiteChrome>
-      <div className="free-banner" role="note">
-        <span className="free-banner-badge">✨ No limits</span>
-        <span>
-          Unlimited tool use, forever free — no sign-up, no quota, no catch. Hit · <kbd>Ctrl</kbd>+
-          <kbd>D</kbd> to bookmark this page so you don't lose it.
-        </span>
-      </div>
       <section className="hero">
         <div className="hero-glow" aria-hidden />
         <div className="container hero-inner">
@@ -132,92 +112,47 @@ function Index() {
             <span className="bs-label">What do you need to do?</span>
             <span className="kbd">Ctrl K</span>
           </button>
-          <div className="example-chips">
-            <span className="ec-lead">Popular:</span>
-            {HERO_CHIPS.map((c) => (
-              <button
-                key={c.slug}
-                onClick={() =>
-                  navigate({
-                    to: "/tools/$category/$slug",
-                    params: { category: c.category, slug: c.slug },
-                  })
-                }
-              >
-                {c.label}
-                <span className="ec-arrow" aria-hidden>
-                  →
-                </span>
-              </button>
-            ))}
-          </div>
+          <p className="free-banner" role="note">
+            <span className="free-banner-badge">✨ No limits</span>
+            <span>
+              Unlimited use, forever free — no sign-up, no quota, no catch. <kbd>Ctrl</kbd>+
+              <kbd>D</kbd> to bookmark.
+            </span>
+          </p>
         </div>
       </section>
 
       <section className="container section" id="popular" aria-labelledby="popular-heading">
         <div className="section-head">
           <h2 id="popular-heading">Popular tools</h2>
-          <Link to="/tools/$category" params={{ category: "image" }}>
-            All {TOOLS.length} tools →
-          </Link>
+          <a href="#categories">Browse all {TOOLS.length} tools →</a>
         </div>
         <div className="bento">
-          <div
-            className="feature card"
-            style={{ display: "flex", flexDirection: "column", gap: 12 }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <CategoryChip category="image" />
-              <div>
-                <strong style={{ fontSize: "1.1rem" }}>Image Compressor</strong>
-                <div style={{ color: "var(--muted)", fontSize: "0.88rem" }}>
-                  Shrink JPG, PNG, and WEBP up to 85% — right here, before you even leave this card.
-                </div>
-              </div>
-            </div>
-            <ClientOnly fallback={<div className="dropzone">Loading…</div>}>
-              <Suspense fallback={<div className="dropzone">Loading…</div>}>
-                <ImageCompressor />
-              </Suspense>
-            </ClientOnly>
-          </div>
-          {popular
-            .filter((t) => t.slug !== "compress-image")
-            .map((t) => (
-              <ToolCard key={t.slug} tool={t} />
-            ))}
+          {popular.map((t) => (
+            <ToolCard key={t.slug} tool={t} />
+          ))}
         </div>
       </section>
 
-      <section className="container section" id="categories">
-        <div className="home-lower">
-          <div>
-            <h2 style={{ marginBottom: 18 }}>Browse by category</h2>
-            <div className="cat-two">
-              {CATEGORIES.map((c) => (
-                <Link
-                  key={c.id}
-                  to="/tools/$category"
-                  params={{ category: c.id }}
-                  className="cat-item"
-                >
-                  <CategoryChip category={c.id} />
-                  <span>{CAT_DISPLAY[c.id] ?? c.name}</span>
-                  <span className="count">{categoryCount(c.id)}</span>
-                </Link>
-              ))}
-              <div className="cat-item soon" aria-disabled="true">
-                <span className="chip" style={{ background: "var(--bg)", color: "var(--muted)" }}>
-                  ⇄
-                </span>
-                <span>Converters</span>
-                <span className="count">soon</span>
-              </div>
-            </div>
-          </div>
+      <section className="container section" id="categories" aria-labelledby="categories-heading">
+        <h2 id="categories-heading" style={{ marginBottom: 18 }}>
+          Browse by category
+        </h2>
+        <div className="cat-grid">
+          {CATEGORIES.map((c) => (
+            <Link key={c.id} to="/tools/$category" params={{ category: c.id }} className="cat-item">
+              <CategoryChip category={c.id} />
+              <span className="name">{CAT_DISPLAY[c.id] ?? c.name}</span>
+              <span className="desc">
+                {categoryCount(c.id)} {categoryCount(c.id) === 1 ? "tool" : "tools"}
+              </span>
+            </Link>
+          ))}
+        </div>
 
-          <div className="why-panel" id="why">
-            <h2 style={{ fontSize: "1.3rem" }}>Why this site is different</h2>
+        <div id="why" className="why-block">
+          <h2 className="why-heading">Why this site is different</h2>
+          <div className="why-panel">
             <ul>
               <li>
                 <strong>
@@ -253,11 +188,11 @@ function Index() {
         </div>
       </section>
 
-      <section className="container section" id="roadmap">
-        <div className="section-head">
-          <h2>Roadmap</h2>
-          <span style={{ color: "var(--muted)", fontSize: "0.85rem" }}>What's next, in order</span>
-        </div>
+      <section className="container section" id="roadmap" aria-labelledby="roadmap-heading">
+        <h2 id="roadmap-heading" className="section-title">
+          Roadmap
+        </h2>
+        <p className="section-sub">What's next, in order</p>
         <ul className="roadmap-list">
           {ROADMAP_ITEMS.map((item) => (
             <li key={item.title} className={`roadmap-item roadmap-${item.status}`}>

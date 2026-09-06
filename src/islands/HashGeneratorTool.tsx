@@ -58,7 +58,7 @@ export default function HashGeneratorTool() {
                   style={{
                     display: "block",
                     wordBreak: "break-all",
-                    fontSize: "0.85rem",
+                    fontSize: "var(--fs-md)",
                     color: "var(--muted)",
                   }}
                 >

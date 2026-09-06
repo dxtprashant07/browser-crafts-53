@@ -151,7 +151,7 @@ export default function TimestampConverterTool() {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      <span style={{ width: 90, color: "var(--muted)", fontSize: "0.85rem" }}>{label}</span>
+      <span style={{ width: 90, color: "var(--muted)", fontSize: "var(--fs-md)" }}>{label}</span>
       <code className="mono" style={{ flex: 1, wordBreak: "break-all" }}>
         {value}
       </code>

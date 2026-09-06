@@ -439,6 +439,7 @@ export const TOOLS: Tool[] = [
       },
     ],
     related: ["qr-code-generator", "base64-encode-decode", "json-formatter", "word-counter"],
+    popular: true,
   },
   {
     slug: "base64-encode-decode",

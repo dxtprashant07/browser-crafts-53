@@ -47,7 +47,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
   return (
     <div className="container section" style={{ textAlign: "center", minHeight: "50vh" }}>
-      <h1 style={{ fontSize: "1.4rem" }}>This page didn't load</h1>
+      <h1 style={{ fontSize: "var(--fs-xl)" }}>This page didn't load</h1>
       <p style={{ color: "var(--muted)" }}>
         Something went wrong. Try refreshing or head back home.
       </p>

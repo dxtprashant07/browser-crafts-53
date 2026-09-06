@@ -287,7 +287,7 @@ export default function PassportPhotoTool() {
                 height: frameH,
                 touchAction: "none",
                 cursor: "grab",
-                borderRadius: 4,
+                borderRadius: "var(--radius-sm)",
                 boxShadow: "0 0 0 2px var(--accent)",
               }}
               onPointerDown={onPointerDown}

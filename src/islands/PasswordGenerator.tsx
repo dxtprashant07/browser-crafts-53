@@ -81,7 +81,7 @@ export default function PasswordGenerator() {
       >
         <code
           className="mono"
-          style={{ fontSize: "1.15rem", wordBreak: "break-all", flex: 1, cursor: "pointer" }}
+          style={{ fontSize: "var(--fs-lg)", wordBreak: "break-all", flex: 1, cursor: "pointer" }}
           aria-live="polite"
           title="Click to copy"
           onClick={copyPassword}
@@ -100,7 +100,7 @@ export default function PasswordGenerator() {
       </div>
 
       <div style={{ marginBottom: 6, display: "flex", justifyContent: "space-between" }}>
-        <span style={{ fontSize: "0.85rem", color: "var(--muted)" }}>Strength</span>
+        <span style={{ fontSize: "var(--fs-md)", color: "var(--muted)" }}>Strength</span>
         <span className="mono" style={{ color: s.color, fontWeight: 600 }}>
           {s.label} · {s.bits} bits
         </span>

@@ -85,7 +85,7 @@ export function AffiliateLink({ href, label }: { href: string; label: string }) 
       target="_blank"
       rel="sponsored noopener noreferrer"
       className="ad-slot"
-      style={{ textTransform: "none", letterSpacing: "normal", fontSize: "0.85rem" }}
+      style={{ textTransform: "none", letterSpacing: "normal", fontSize: "var(--fs-md)" }}
     >
       {label}
     </a>
