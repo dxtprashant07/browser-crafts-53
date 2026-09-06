@@ -68,4 +68,4 @@ ships no `node_modules`.
 - `.github/workflows/ci.yml` — lint, typecheck, build on every push/PR to
   `main`; uploads the `dist` artifact.
 - `.github/workflows/docker-publish.yml` — builds and pushes the container image
-  to GHCR (uses the built-in `GITHUB_TOKEN`, no extra secrets).
+  to GHCR (uses the built-in `GITHUB_TOKEN`, no extra secrets)..
