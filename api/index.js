@@ -33,6 +33,14 @@ export default async function (req, res) {
     response.headers.forEach((value, key) => {
       headers[key] = value;
     });
+    // Every page here renders from the static tool registry — no cookies, no
+    // per-user data — so successful GETs are safe to cache on Vercel's edge.
+    // `max-age` alone only controls the browser; Vercel's CDN keys off
+    // `s-maxage`. Without it every request (including crawlers) recomputes
+    // SSR from cold, which is what was producing multi-second TTFB.
+    if (req.method === "GET" && response.status === 200) {
+      headers["cache-control"] = "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400";
+    }
     res.writeHead(response.status, headers);
     if (response.body) {
       Readable.fromWeb(response.body).pipe(res);

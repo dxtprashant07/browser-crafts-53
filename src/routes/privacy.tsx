@@ -11,6 +11,11 @@ export const Route = createFileRoute("/privacy")({
         name: "description",
         content: "How Subtrate handles your data: it doesn't. Every tool runs in your browser.",
       },
+      { property: "og:title", content: "Privacy — Subtrate" },
+      {
+        property: "og:description",
+        content: "How Subtrate handles your data: it doesn't. Every tool runs in your browser.",
+      },
       { property: "og:url", content: absUrl("/privacy") },
       { property: "og:type", content: "website" },
     ],

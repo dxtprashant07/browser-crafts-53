@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { getCategory, getTool } from "@/data/registry";
+import { getComparisonsForTool } from "@/data/comparisons";
 import { SiteChrome } from "@/components/SiteChrome";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { RelatedTools, AdSlot } from "@/components/ToolCard";
@@ -42,6 +43,20 @@ export const Route = createFileRoute("/tools/$category/$slug")({
             operatingSystem: "Any",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
             description: tool.metaDescription,
+            dateModified: tool.updatedAt,
+          }),
+        },
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: `How to use ${tool.name}`,
+            step: tool.howTo.map((s, i) => ({
+              "@type": "HowToStep",
+              position: i + 1,
+              text: s,
+            })),
           }),
         },
         {
@@ -91,6 +106,7 @@ export const Route = createFileRoute("/tools/$category/$slug")({
 
 function ToolPage() {
   const { tool, cat } = Route.useLoaderData();
+  const comparisons = getComparisonsForTool(tool.slug);
   const WIDE_TOOLS = [
     "word-counter",
     "text-compare",
@@ -114,6 +130,16 @@ function ToolPage() {
         ]}
       />
       <h1>{tool.h1}</h1>
+      <p style={{ color: "var(--muted)", fontSize: "var(--fs-sm)", marginBottom: 8 }}>
+        Updated{" "}
+        <time dateTime={tool.updatedAt}>
+          {new Date(tool.updatedAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </time>
+      </p>
       <p className="prose" style={{ marginBottom: 20 }}>
         {tool.intro}
       </p>
@@ -134,6 +160,20 @@ function ToolPage() {
       </section>
 
       <RelatedTools slugs={tool.related} />
+
+      {comparisons.length > 0 && (
+        <p style={{ marginTop: 24, color: "var(--muted)" }}>
+          {comparisons.map((c, i) => (
+            <span key={c.slug}>
+              {i > 0 && ", "}
+              <Link to="/compare/$slug" params={{ slug: c.slug }}>
+                See how this compares to {c.competitorName}
+              </Link>
+            </span>
+          ))}
+          .
+        </p>
+      )}
 
       <section className="faq" aria-labelledby="faq-heading" style={{ marginTop: 40 }}>
         <h2 id="faq-heading">Frequently asked questions</h2>

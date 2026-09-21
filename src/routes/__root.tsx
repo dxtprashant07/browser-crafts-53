@@ -21,7 +21,7 @@ import "@fontsource/jetbrains-mono/500.css";
 import appCss from "../styles.css?url";
 import { themeInitScript } from "../lib/theme";
 import { SiteChrome } from "../components/SiteChrome";
-import { absUrl } from "../lib/site";
+import { absUrl, SITE_URL } from "../lib/site";
 import { ADSENSE_CLIENT } from "../lib/ads";
 
 function NotFoundComponent() {
@@ -107,15 +107,38 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
-    scripts: ADSENSE_CLIENT
-      ? [
-          {
-            src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`,
-            async: true,
-            crossOrigin: "anonymous",
-          },
-        ]
-      : [],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Subtrate",
+          url: SITE_URL,
+          logo: absUrl("/og-image.png"),
+          description:
+            "Free, private browser tools for images, PDFs, text, and code. Nothing is ever uploaded.",
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Subtrate",
+          url: SITE_URL,
+        }),
+      },
+      ...(ADSENSE_CLIENT
+        ? [
+            {
+              src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`,
+              async: true,
+              crossOrigin: "anonymous" as const,
+            },
+          ]
+        : []),
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,

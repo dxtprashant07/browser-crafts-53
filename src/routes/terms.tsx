@@ -11,6 +11,11 @@ export const Route = createFileRoute("/terms")({
         name: "description",
         content: "Terms of use for Subtrate's free, browser-based tools.",
       },
+      { property: "og:title", content: "Terms — Subtrate" },
+      {
+        property: "og:description",
+        content: "Terms of use for Subtrate's free, browser-based tools.",
+      },
       { property: "og:url", content: absUrl("/terms") },
       { property: "og:type", content: "website" },
     ],

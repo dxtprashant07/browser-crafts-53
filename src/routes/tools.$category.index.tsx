@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CATEGORIES, getCategory, getToolsByCategory, type Category } from "@/data/registry";
+import { getComparisonsForCategory } from "@/data/comparisons";
 import { SiteChrome } from "@/components/SiteChrome";
 import { ToolCard } from "@/components/ToolCard";
 import { Breadcrumbs, CategoryChip } from "@/components/Breadcrumbs";
@@ -73,6 +74,7 @@ export const Route = createFileRoute("/tools/$category/")({
 function CategoryHub() {
   const { category } = Route.useLoaderData();
   const tools = getToolsByCategory(category.id as Category);
+  const comparisons = getComparisonsForCategory(category.id as Category);
 
   return (
     <SiteChrome>
@@ -101,6 +103,21 @@ function CategoryHub() {
               Suggest a tool
             </Link>
           </div>
+        )}
+
+        {comparisons.length > 0 && (
+          <p style={{ marginTop: 24, color: "var(--muted)" }}>
+            Wondering how these compare to other tools?{" "}
+            {comparisons.map((c, i) => (
+              <span key={c.slug}>
+                {i > 0 && ", "}
+                <Link to="/compare/$slug" params={{ slug: c.slug }}>
+                  Subtrate vs {c.competitorName}
+                </Link>
+              </span>
+            ))}
+            .
+          </p>
         )}
 
         <h2 style={{ marginTop: 40 }}>Other categories</h2>

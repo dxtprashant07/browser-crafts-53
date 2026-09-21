@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { CATEGORIES, TOOLS } from "@/data/registry";
+import { COMPARISONS } from "@/data/comparisons";
 import { SITE_URL as BASE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/sitemap.xml")({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           "/about",
           "/privacy",
           "/terms",
+          ...COMPARISONS.map((c) => `/compare/${c.slug}`),
           ...CATEGORIES.map((c) => `/tools/${c.id}`),
           ...TOOLS.map((t) => `/tools/${t.category}/${t.slug}`),
         ];

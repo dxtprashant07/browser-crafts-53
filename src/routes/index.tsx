@@ -42,28 +42,6 @@ export const Route = createFileRoute("/")({
   head: () => ({
     links: [{ rel: "canonical", href: absUrl("/") }],
     meta: [{ property: "og:url", content: absUrl("/") }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebSite",
-          name: "Subtrate",
-          url: absUrl("/"),
-          description: "Fast, private browser tools for images, PDFs, text, and code.",
-        }),
-      },
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "Subtrate",
-          url: absUrl("/"),
-          logo: absUrl("/og-image.png"),
-        }),
-      },
-    ],
   }),
   component: Index,
 });

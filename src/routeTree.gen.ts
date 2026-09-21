@@ -17,6 +17,7 @@ import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as AdsDottxtRouteImport } from './routes/ads[.]txt'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CompareSlugRouteImport } from './routes/compare.$slug'
 import { Route as ToolsCategoryIndexRouteImport } from './routes/tools.$category.index'
 import { Route as ToolsCategorySlugRouteImport } from './routes/tools.$category.$slug'
 
@@ -60,6 +61,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompareSlugRoute = CompareSlugRouteImport.update({
+  id: '/compare/$slug',
+  path: '/compare/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsCategoryIndexRoute = ToolsCategoryIndexRouteImport.update({
   id: '/tools/$category/',
   path: '/tools/$category/',
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/compare/$slug': typeof CompareSlugRoute
   '/tools/$category/$slug': typeof ToolsCategorySlugRoute
   '/tools/$category/': typeof ToolsCategoryIndexRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/compare/$slug': typeof CompareSlugRoute
   '/tools/$category/$slug': typeof ToolsCategorySlugRoute
   '/tools/$category': typeof ToolsCategoryIndexRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/compare/$slug': typeof CompareSlugRoute
   '/tools/$category/$slug': typeof ToolsCategorySlugRoute
   '/tools/$category/': typeof ToolsCategoryIndexRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/compare/$slug'
     | '/tools/$category/$slug'
     | '/tools/$category/'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/compare/$slug'
     | '/tools/$category/$slug'
     | '/tools/$category'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/terms'
+    | '/compare/$slug'
     | '/tools/$category/$slug'
     | '/tools/$category/'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  CompareSlugRoute: typeof CompareSlugRoute
   ToolsCategorySlugRoute: typeof ToolsCategorySlugRoute
   ToolsCategoryIndexRoute: typeof ToolsCategoryIndexRoute
 }
@@ -218,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/compare/$slug': {
+      id: '/compare/$slug'
+      path: '/compare/$slug'
+      fullPath: '/compare/$slug'
+      preLoaderRoute: typeof CompareSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/$category/': {
       id: '/tools/$category/'
       path: '/tools/$category'
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  CompareSlugRoute: CompareSlugRoute,
   ToolsCategorySlugRoute: ToolsCategorySlugRoute,
   ToolsCategoryIndexRoute: ToolsCategoryIndexRoute,
 }
