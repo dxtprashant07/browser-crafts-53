@@ -63,7 +63,7 @@ ships no `node_modules`.
 - **VPS / bare Node**: `bun run build` (or `npm run build`), copy `dist/` +
   `server.mjs` + `package.json`, then `node server.mjs` behind a reverse proxy.
 
-## CI/CD
+## CI/CD    
 
 - `.github/workflows/ci.yml` — lint, typecheck, build on every push/PR to
   `main`; uploads the `dist` artifact.
